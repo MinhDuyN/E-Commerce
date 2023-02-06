@@ -69,8 +69,8 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => 'localhost',
-            'port' => 5432,
-            'database' => 'database',
+            'port' => 3306,
+            'database' => 'ocms',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
