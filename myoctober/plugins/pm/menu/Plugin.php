@@ -1,6 +1,7 @@
 <?php namespace Pm\Menu;
 
 use System\Classes\PluginBase;
+use Pm\Menu\Models\Menu;
 
 class Plugin extends PluginBase
 {
@@ -13,7 +14,8 @@ class Plugin extends PluginBase
         return [
             // A local method, i.e $this->evalUppercaseListColumn()
             'typetext' => [$this, 'evalTypetextListColumn'],
-            'activetext' => [$this, 'evalActivetextListColumn']
+            'activetext' => [$this, 'evalActivetextListColumn'],
+            'parentname' => [$this, 'evalParentnameListColumn']
         ];
     }
 
@@ -33,6 +35,12 @@ class Plugin extends PluginBase
         }else{
             return 'Active';
         }
+    }
+
+    public function evalParentnameListColumn($value, $column, $record)
+    {
+        $parent=Menu::query()->where('id', $value)->firstOrFail();
+        return $parent->title;
     }
 
     public function registerSettings()

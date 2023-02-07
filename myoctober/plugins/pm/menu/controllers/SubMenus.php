@@ -3,7 +3,7 @@
 use Backend\Classes\Controller;
 use BackendMenu;
 
-class Menus extends Controller
+class SubMenus extends Controller
 {
     public $implement = [        'Backend\Behaviors\ListController',        'Backend\Behaviors\FormController',        'Backend\Behaviors\ReorderController'    ];
     
@@ -14,6 +14,6 @@ class Menus extends Controller
     public function __construct()
     {
         parent::__construct();
-        BackendMenu::setContext('Pm.Menu', 'main-menu-item');
+        BackendMenu::setContext('Pm.Menu', 'main-menu-item', 'side-menu-item');
     }
 }

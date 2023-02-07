@@ -5,7 +5,7 @@ use Model;
 /**
  * Model
  */
-class Menu extends Model
+class SubMenu extends Model
 {
     use \October\Rain\Database\Traits\Validation;
     
@@ -19,12 +19,19 @@ class Menu extends Model
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'pm_menu_';
+    public $table = 'pm_menu_submenu';
 
 
-    public $hasMany = [
-        'submenu' => ['Pm\Menu\Models\SubMenu','key'=>'id', 'delete' => true]
+    /* Relation */
+    public $belongsTo=[
+        'ParentName'=>[
+            'Pm\Menu\Models\Menu',
+            'table' => 'pm_menu_submenu',
+            'order' => 'title'
+        ]
     ];
+
+
     /**
      * @var array Validation rules
      */

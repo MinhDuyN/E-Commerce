@@ -9,3 +9,8 @@ navigation:
         label: Menu
         url: pm/menu/menus
         icon: icon-list
+        sideMenu:
+            side-menu-item:
+                label: 'Sub Menu'
+                url: pm/menu/submenus
+                icon: icon-sitemap
