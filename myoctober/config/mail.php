@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => 'smtp.mailgun.org',
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'username' => null,
+    'username' => '19004071@st.vlute.edu.vn',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'password' => null,
+    'password' => '1005Lehuy@',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,6 +110,10 @@ return [
     |
     */
 
-    'sendmail' => '/usr/sbin/sendmail -bs',
+    'sendmail' => '/usr/sbin/sendmail -bs'
+    // 'to' =>[
+    //     'address' => 'lethanhuy1005@gmail.com',
+    //     'name' =>'Catch all email'
+    // ]
 
 ];

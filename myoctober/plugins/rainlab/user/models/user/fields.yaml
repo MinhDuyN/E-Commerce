@@ -84,6 +84,15 @@ tabs:
             tab: rainlab.user::lang.user.account
             context: preview
 
+        type_user:
+                label: Type_User
+                searchable: true
+                invisible: true
+                type: text
+                tab: rainlab.user::lang.user.account
+                context: preview
+        
+
 secondaryTabs:
     fields:
 

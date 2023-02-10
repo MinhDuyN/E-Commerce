@@ -1,33 +1,39 @@
 {{ form_ajax('onSignin') }}
+<div class="wrapper fadeInDown">
+    <ul>
+        {% for error in errors.all() %}
+            <li> {{error}} </li>
+        {% endfor %}
+    </ul>
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active"> Sign In </h2>
+        <!-- Icon
+        <div class="fadeIn second">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+        </div> -->
 
-    <div class="form-group">
-        <label for="userSigninLogin">{{ loginAttributeLabel }}</label>
-        <input
-            name="login"
-            type="text"
-            class="form-control"
-            id="userSigninLogin"
-            placeholder="Enter your {{ loginAttributeLabel|lower }}" />
-    </div>
+        <!-- Login Form -->
+        <div id="resultsSignin"></div>
+        <form id="form">
+            <input class="fadeIn second" name="login" type="text" id="userSigninLogin"
+                placeholder="Enter your {{ loginAttributeLabel|lower }}" />
+            <input class="fadeIn second" name="password" type="text" id="userSigninPassword"
+                placeholder="Enter your password" />
+            <input type="submit" class="fadeIn fourth" value="Log In">
+            {% if rememberLoginMode == 'ask' %}
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input name="remember" type="checkbox" value="1">Stay logged in</label>
+                </div>
+            </div>
+            {% endif %}
+        </form>
 
-    <div class="form-group">
-        <label for="userSigninPassword">Password</label>
-        <input
-            name="password"
-            type="password"
-            class="form-control"
-            id="userSigninPassword"
-            placeholder="Enter your password" />
-    </div>
-
-    {% if rememberLoginMode == 'ask' %}
-    <div class="form-group">
-        <div class="checkbox">
-        <label><input name="remember" type="checkbox" value="1">Stay logged in</label>
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="/restore">Forgot Password?</a>
         </div>
     </div>
-    {% endif %}
-
-    <button type="submit" class="btn btn-default">Sign in</button>
-
+</div>
 {{ form_close() }}

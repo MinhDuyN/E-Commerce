@@ -8,26 +8,22 @@ detailsPage = "-"
 detailsUrlParameter = "id"
 pageNumber = "{{ :page }}"
 
+[session]
+security = "all"
 ==
-
-<?
-    use Pm\Menu\Models\Menu;
+<?php
+use Pm\Menu\Models\Menu;
     use Pm\Menu\Models\SubMenu;
 
     function onStart(){
         $this['menu']= Menu::get();
         $this['smenu']= DB::table('pm_menu_submenu')
         ->Join('pm_menu_','pm_menu_submenu.parent_name_id','=','pm_menu_.id')
-        ->select('pm_menu_submenu.title as s','pm_menu_.title as m')
+        ->select('pm_menu_submenu.title as s','pm_menu_.title as m', 'pm_menu_submenu.url as surl')
         ->get();
 
-        
-        
-        
     }
 ?>
-
-
 ==
 {% set records = builderList.records %}
 {% set displayColumn = builderList.displayColumn %}
@@ -44,31 +40,41 @@ pageNumber = "{{ :page }}"
                 {% if record.type == 0 %}
                     <li class="nav-item">
                         {% if record %}
-                        <!-- {% if detailsPage %}<a class="nav-link" href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}">{% endif %}
-                        
-                        {% if detailsPage %}</a>{% endif %} -->
+                       
                         <a class="nav-link header-title-parent h-100 pt-2 text-dark" href="{{ record.url }}">
+                            {% if record.title == 'login' and user %}
+                            <p>Hello {{ user.name }}</p>
+                            {% else %}
                             {{ record.title }}
-                        </a> 
+                            {% endif %}
+                        </a>
                             <ul class="nav-sub navbar-nav">
                                 {% for rc in smenu %}
                                 {% if rc.m == record.title %}
-                                <li class="nav-item py-1">                          
-                                    <a class="nav-link header-title text-dark" href="">
+                                <li class="nav-item py-1">
+                                    <a class="nav-link header-title text-dark" href='/{{record.url}}/{{ rc.surl }}''>
                                         {{ rc.s }}
-
-                                    </a>    
+                                    </a>
                                 </li>
                                 {% endif %}
                                 {% endfor %}
-                            </ul>
-                    </li>         
+                                {% if record.title == 'login' %}
+                                {% if user %}
+                                <li class="nav-item py-1">
+                                    <a class="btn outline" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
+                                </li>
+                                {% else %}          
+                                {% endif %} 
+                            {% endif %}
+                            </ul>    
+                    </li>
                         {% else %}
                             <li class="no-data">{{ noRecordsMessage }}</li>
                         {% endif %}
                 {% endif %}
             {% endif %}
         {% endfor %}
+            
     </ul>
 
     <ul class="record-list navbar-nav mx-auto text-center h-100">
@@ -77,22 +83,21 @@ pageNumber = "{{ :page }}"
                 {% if record.type == 1 %}
                     <li class="nav-item">
                         <a class="nav-link header-title-parent h-100 pt-2 text-dark" href="{{ record.url }}">
-                            {% if record.title == "login" %}
-                                {% if not user %}
-                                    {{record.title}}
-                                {% else %}
+                            {% if record.title == "signin" %}
+                                {% if users123 !=""  %}
                                     My Profile
-                                {% endif %}
+                                {% endif %}                                
                             {% else %}
-                                {{record.title}}
+                                {{record.title}} {{users123}}
                             {% endif %}
+                            
                         </a>
 
                         <ul class="nav-sub navbar-nav mx-auto">
                             {% for rc in smenu %}
                             {% if rc.m == record.title %}
                             <li class="nav-item py-1">                          
-                                <a class="nav-link header-title text-dark" href="">
+                                <a class="nav-link header-title text-dark" href="{{ rc.url }}">
                                     {{ rc.s }}
 
                                 </a>    
@@ -105,10 +110,10 @@ pageNumber = "{{ :page }}"
 
                     {% if user %}
                         <li class="nav-item">
-                            <a class="nav-link header-title h-100 pt-3" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
+                        <p>Hello {{ user.name }}</p>
                         </li>
+                        <a class="nav-link header-title h-100 pt-3" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
                     {% endif %}
-
                 {% endif %}
             {% endif %}
         {% endfor %}

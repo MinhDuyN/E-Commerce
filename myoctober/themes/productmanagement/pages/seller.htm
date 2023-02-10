@@ -1,0 +1,13 @@
+title = "seller"
+url = "/seller"
+layout = "default"
+is_hidden = 0
+
+[session]
+security = "user"
+==
+{% if user %}
+<li class="nav-item"></li>
+<p>Hello {{ user.type_user }}</p>
+{% else %}
+{% endif %}
