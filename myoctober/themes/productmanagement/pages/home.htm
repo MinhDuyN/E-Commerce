@@ -2,5 +2,150 @@ title = "home"
 url = "/"
 layout = "default"
 is_hidden = 0
+
+[builderList]
+modelClass = "Pm\Product\Models\Category"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
 ==
-<h1>hello </h1>
+
+
+<?
+    
+
+    function onDetailscategory(){
+    	$data = post();
+
+
+        return [
+        	'#Details' => $this->renderPartial('components/detailsCategory',[
+        		'id'=>$data['id']
+        	])
+        ];
+
+        
+    }
+?>
+
+
+==
+{% set records = builderList.records %}
+{% set displayColumn = builderList.displayColumn %}
+{% set noRecordsMessage = builderList.noRecordsMessage %}
+{% set detailsPage = builderList.detailsPage %}
+{% set detailsKeyColumn = builderList.detailsKeyColumn %}
+{% set detailsUrlParameter = builderList.detailsUrlParameter %}
+
+{% put styles %}
+    <link href="{{ 'assets/css/home.css'|theme }}" rel="stylesheet">
+{% endput %}
+
+<div class="view-home row w-100 h-100">
+	<div class="view-home-1 col-sm-8 p-0 d-flex flex-row h-100 position-relative">
+		<div class="w-25">
+			<div class="view-home-1-title p-3">
+				thể loại 
+			</div>
+			<div class="view-home-1-content d-flex">
+				<div class="w-100">
+					<ul class="record-list navbar-nav">
+					    {% for record in records %}
+					        <li id="{{record.id}}" class="category-nav nav-item pl-3 pb-1">     
+								{{ attribute(record, displayColumn) }}
+								<span class="view-home-nose text-muted pr-2">></span>        
+					        </li>
+					    {% else %}
+					        <li class="no-data">{{ noRecordsMessage }}</li>
+					    {% endfor %}
+					</ul>
+					<div class="end position-absolute">
+						xem thêm ⇊
+					</div>
+				</div>
+
+				<div id="Details" class="view-home-1-midcontent w-75 position-absolute">
+		
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="w-75 p-3 view-category">
+			<div class="view-home-1-title">
+				Danh mục
+			</div>
+			
+			<div class="row">
+				<div class="grid-content-1 col d-flex flex-column mr-0">
+					<div class="grid-title mt-2">
+						Sản phẩm mới
+						<span>New</span>
+					</div>
+					<div class="grid-content row h-100 p-1 px-3">
+						<div class="col grid-image p-0 m-0 mr-2">
+							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwgMtQNg5OnZ-U5ee1d_2ZFSHJ-hxKbDTlwnkxmUx&s" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="grid-content-2 col d-flex flex-column">
+					<div class="grid-title mt-2">
+						Ifashion
+						<span>Hot</span>
+					</div>
+					<div class="grid-content row h-100 p-1 px-3">
+						<div class="col grid-image p-0 m-0 mr-2">
+							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwgMtQNg5OnZ-U5ee1d_2ZFSHJ-hxKbDTlwnkxmUx&s" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="grid-content-3 col d-flex flex-column">
+					<div class="grid-title mt-2">
+						Giảm giá
+						<span>sale</span>
+					</div>
+					<div class="grid-content row h-100 p-1 px-3">
+						<div class="col grid-image p-0 m-0 mr-2 h-100">
+							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwgMtQNg5OnZ-U5ee1d_2ZFSHJ-hxKbDTlwnkxmUx&s" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0 mr-2 h-100">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0 mr-2 h-100">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0 mr-2 h-100">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+						<div class="col grid-image p-0 m-0 mr-2 h-100">
+							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="view-home-2 col ml-sm-4 p-3">
+		asdadsdszzz
+	</div>
+</div>
+
+
+{% put scripts %}
+	<script src="{{ 'assets/js/home.js'|theme }}"></script>
+{% endput %}

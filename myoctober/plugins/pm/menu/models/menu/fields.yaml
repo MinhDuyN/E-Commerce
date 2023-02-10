@@ -1,7 +1,7 @@
 fields:
     title:
         label: 'Tiêu đề'
-        span: left
+        span: full
         type: text
     url:
         label: Url

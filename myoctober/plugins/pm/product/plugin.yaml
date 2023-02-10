@@ -1,0 +1,24 @@
+plugin:
+    name: 'pm.product::lang.plugin.name'
+    description: 'pm.product::lang.plugin.description'
+    author: pm
+    icon: oc-icon-adjust
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: Category
+        url: pm/product/categorys
+        icon: icon-plus
+        sideMenu:
+            side-menu-item:
+                label: 'Category Details'
+                url: pm/product/categorydetails
+                icon: icon-sitemap
+            side-menu-item2:
+                label: 'Category Tags'
+                url: pm/product/categorytags
+                icon: icon-tags
+            side-menu-item3:
+                label: 'Product Item'
+                url: pm/product/products
+                icon: icon-taxi

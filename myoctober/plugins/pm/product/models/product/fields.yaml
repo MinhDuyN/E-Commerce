@@ -1,0 +1,43 @@
+fields:
+    name:
+        label: 'Product Name'
+        span: full
+        type: text
+    price:
+        label: Price
+        span: auto
+        type: text
+    slug:
+        label: Slug
+        span: auto
+        type: text
+    description:
+        label: Description
+        size: ''
+        span: full
+        type: textarea
+    ProductCategoryDetails:
+        label: Category
+        nameFrom: name
+        descriptionFrom: description
+        span: left
+        type: relation
+    tagsbox:
+        label: 'Tags box'
+        span: auto
+        type: tagsbox
+    image:
+        label: 'Product image'
+        span: left
+        mode: image
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        imageWidth: '100'
+        imageHeight: '100'
+        type: fileupload
+    active:
+        label: Active
+        span: left
+        type: checkbox

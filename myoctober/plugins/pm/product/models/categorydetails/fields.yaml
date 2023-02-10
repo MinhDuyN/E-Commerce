@@ -1,0 +1,16 @@
+fields:
+    name:
+        label: Name
+        span: full
+        type: text
+    description:
+        label: Description
+        size: ''
+        span: full
+        type: textarea
+    ParentCategory:
+        label: 'Parent Category'
+        span: auto
+        nameFrom: name
+        descriptionFrom: description
+        type: relation

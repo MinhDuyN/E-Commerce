@@ -2,6 +2,8 @@ body{
 	width: 100%;
 	height: auto;
 	background: #FFF2F2 !important;
+	display: flex;
+	flex-direction: column;
 }
 #pc-menu,#mobile-menu{
 	background: rgba(233, 226, 227, 0.7);
@@ -118,6 +120,7 @@ body{
 	visibility: hidden;
 	max-width: 100%;
 	z-index: 20;
+	animation: fadeout 0.5s;
 }
 
 .nav-item:hover .nav-sub{
@@ -149,7 +152,7 @@ body{
 .header-title-parent{
 	font: 12px/1.5 sans-serif;
 }
-.header-title{
+.header-title, .header-title-categories{
 	font: 12px/1.5 sans-serif;
 
 }
@@ -226,4 +229,15 @@ body{
 }
 .btn-search:hover{
 	font-weight: bolder;
+}
+.category ul li:hover .header-title-categories{
+	color: red !important;
+}
+.a:hover .header-title-categories{
+	color: red !important;
+}
+.mx-content{
+	width: 80%;
+	height: 430px;
+	margin: 0 auto;
 }

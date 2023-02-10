@@ -1,0 +1,112 @@
+.view-home-1, .view-home-2{
+	border: 1px solid white;
+	border-radius: 14px;
+	background: #fff;
+	margin-bottom: 1em;
+}
+
+.view-home-1-title{
+	font: 16px tahoma, arial, 'Hiragino Sans GB', '\5b8b\4f53', sans-serif;
+	font-weight: bolder;
+	color: black;
+}
+.view-home-1-content{
+	height: 80%;
+	overflow: hidden;
+	
+}
+.view-home-1-content:hover{
+	border-radius: 0 0 14px 14px;
+	height: 105%;
+	background: white;
+	overflow-y: auto;
+}
+.view-home-1-content ul li:hover {
+	background: #FFF2F2;
+	cursor: pointer;
+}
+.view-home-1-content ul li:hover .view-home-nose{
+	color: orange !important;
+}
+.view-home-1-midcontent-show{
+	visibility: visible !important;
+	overflow-y: auto;
+}
+
+.view-home-1-content::-webkit-scrollbar, .view-home-1-midcontent-show::-webkit-scrollbar {
+    display: none;
+}
+.view-home-1-midcontent{
+	z-index: 20;
+	visibility: none;
+	right: 0;
+	top: 0;
+	visibility: hidden;
+	overflow: hidden;
+	height: 117%;
+	background: white;
+	border-radius: 14px;
+	border: 3px solid orange;
+}
+.view-home-nose{
+	float: right;
+}
+.end{
+	bottom: 0;
+	left: 1.5em;
+	padding-left: 2em;
+	padding-right: 2em;
+	border: 1px solid gray;
+	font: 12px/1.5 sans-serif;
+	opacity: 0.5;
+}
+.hidden{
+	visibility: hidden;
+}
+.grid-content-1, .grid-content-2{
+	margin: 1em;
+	background: #F4F4F4;
+	border-radius: 14px;
+	height: 170px;
+}
+.grid-content-3{
+	height: 170px;
+	max-height: auto;
+	background: #F4F4F4;
+	border-radius: 14px;
+	margin: 0 1em 1em 1em;
+}
+.grid-title{
+	margin-bottom: 4px;
+	margin-top: 4px;
+	color: grey;
+}
+.grid-title span{
+	color: white;
+	width: 10%;
+	z-index: 10;
+	padding: 1px 5px 1px 5px;
+	background: -webkit-linear-gradient(to right, #b24592, #f15f79);
+  	background: linear-gradient(to right, #b24592, #f15f79);
+	border-radius: 10px;	
+	opacity: 1;
+}
+.grid-content{
+	margin-bottom: 5px;
+}
+.grid-image img{
+	padding-top: 6px;
+	padding-bottom: 6px;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	filter:brightness(65%);
+}
+.grid-image img:hover{
+	cursor: pointer;
+	filter:brightness(100%);
+}
+.category-nav{
+	font: 14px/1.5 sans-serif;
+	color: gray;
+}
