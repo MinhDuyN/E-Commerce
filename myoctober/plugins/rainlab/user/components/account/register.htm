@@ -1,53 +1,32 @@
 {% if canRegister %}
-    <h3>Register</h3>
+{{ form_ajax('onRegister') }}
+<form>
+    <div class="wrapper fadeInUp">
+        <div id="formContent">
+            <h2 class="active"> Register </h2>
+            <div id="resultsRegister"></div>
+            <input class="fadeIn second" name="name" type="text" id="registerName" placeholder="Enter your full name" />
+            <input class="fadeIn second" name="email" type="text" id="registerEmail" placeholder="Enter your email" />
 
-    {{ form_ajax('onRegister') }}
-
-        <div class="form-group">
-            <label for="registerName">Full Name</label>
-            <input
-                name="name"
-                type="text"
-                class="form-control"
-                id="registerName"
-                placeholder="Enter your full name" />
-        </div>
-
-        <div class="form-group">
-            <label for="registerEmail">Email</label>
-            <input
-                name="email"
-                type="email"
-                class="form-control"
-                id="registerEmail"
-                placeholder="Enter your email" />
-        </div>
-
-        {% if loginAttribute == "username" %}
-            <div class="form-group">
+            {% if loginAttribute == "username" %}
+            <div id="content" class="form-group">
                 <label for="registerUsername">Username</label>
-                <input
-                    name="username"
-                    type="text"
-                    class="form-control"
-                    id="registerUsername"
+                <input name="username" type="text" class="form-control" id="registerUsername"
                     placeholder="Enter your username" />
             </div>
-        {% endif %}
-
-        <div class="form-group">
-            <label for="registerPassword">Password</label>
-            <input
-                name="password"
-                type="password"
-                class="form-control"
-                id="registerPassword"
-                placeholder="Choose a password" />
+            {% endif %}          
+            <input class="fadeIn second" name="password" type="text" id="registerPassword"
+                placeholder="Enter your password" />
+            <select class="btn btn-default" name="type_user" id="type_user">
+                <option value="customer">Khach hang</option>
+                <option value="seller">Nguoi ban hang</option>
+            </select>
+            
+            <input type="submit" class="fadeIn fourth" value="Register">
         </div>
-
-        <button type="submit" class="btn btn-default">Register</button>
-
-    {{ form_close() }}
+    </div>
+</form>
+{{ form_close() }}
 {% else %}
-    <!-- Registration is disabled. -->
+<!-- Registration is disabled. -->
 {% endif %}

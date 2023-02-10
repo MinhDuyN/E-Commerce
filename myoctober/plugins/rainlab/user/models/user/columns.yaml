@@ -48,3 +48,8 @@ columns:
         label: rainlab.user::lang.user.last_ip_address
         searchable: true
         invisible: true
+
+    type_user:
+        label: Type_User
+        searchable: true
+        type: text

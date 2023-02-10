@@ -247,6 +247,22 @@ class Account extends ComponentBase
             $data['login'] = trim($data['login']);
 
             $validation = Validator::make(
+                [
+                    'login' => Input::get('login'),
+                    'password' => Input::get('password')
+                ],
+                [
+                    'login' => 'required',
+                    'password' => 'required|min:8'
+                ],
+                [
+                    'required' => ':attribute required',
+                    'min' => ':attribute min is 8'
+                ],
+                [
+                    'login' => 'Username',
+                    'password' => 'Password'
+                ],
                 $data,
                 $rules,
                 $this->getValidatorMessages(),
@@ -254,7 +270,11 @@ class Account extends ComponentBase
             );
 
             if ($validation->fails()) {
-                throw new ValidationException($validation);
+                // return Redirect::back()->withErrors($validation);
+                return ['#resultsSignin' =>$this->renderPartial('account::message', [
+                    'errorMsgs' =>$validation->messages()->all()
+                ])];
+                // throw new ValidationException($validation);
             }
 
             /*
@@ -323,6 +343,24 @@ class Account extends ComponentBase
             }
 
             $validation = Validator::make(
+                [
+                    'email' => Input::get('email'),
+                    // 'username' => Input::get('username'),
+                    'password' => Input::get('password')
+                ],
+                [
+                    'email' => 'required|email',
+                    'password' => 'required|min:8',
+                    // 'username' => 'required'
+                ],
+                [
+                    'required' => ':attribute required',
+                    'min' => ':attribute min is 8'
+                ],
+                [
+                    'email' => 'Username',
+                    'password' => 'Password'
+                ],
                 $data,
                 $rules,
                 $this->getValidatorMessages(),
@@ -330,7 +368,10 @@ class Account extends ComponentBase
             );
 
             if ($validation->fails()) {
-                throw new ValidationException($validation);
+                return ['#resultsRegister' =>$this->renderPartial('account::message', [
+                    'errorMsgs' =>$validation->messages()->all()
+                ])];
+                // throw new ValidationException($validation);
             }
 
             /*
@@ -675,5 +716,9 @@ class Account extends ComponentBase
             'username' => Lang::get('rainlab.user::lang.user.username'),
             'name' => Lang::get('rainlab.user::lang.account.full_name')
         ];
+    }
+
+    public function onSend(){
+        
     }
 }
