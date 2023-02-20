@@ -8,3 +8,10 @@ fields:
         size: ''
         span: full
         type: textarea
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text

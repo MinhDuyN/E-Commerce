@@ -35,10 +35,11 @@
 </style>
 
 
-<select class="s2" multiple>
-	<option value="1">a asdasd </option>
-	<option value="2">basd asd</option>
-	<option value="3">c</option>
+<select class="s2" name="<?php echo $name ?>" multiple>
+	 <?php foreach($firsttag as $ft): ?>
+	 	<option value="<?php echo $ft->id ?>" <?php echo in_array($ft->id, $selectedValues) ? 'selected="selected"': ''; ?> ><?php echo $ft->name ?></option>`;
+	 <?php endforeach ?>
+	
 </select>
 
 <script type="text/javascript">
@@ -47,5 +48,23 @@
 			placeholder: 'Add tag',
 			tags: true
 		})
+
+		$('#Form-field-Product-ProductCategoryDetails').change(function(event) {
+			$.request(
+			'onGetID',
+			{
+				data: {id: event.target.value},
+				success: function(data) {
+					var output="";
+					data.forEach((item,index)=>{
+						output+=`<option value="${item.id}">${item.name}</option>`;
+					})
+					console.log(output);
+			    	$(".s2").html(output);
+				}
+			})
+		});
+
+
 	});
 </script>

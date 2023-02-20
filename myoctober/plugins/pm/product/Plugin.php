@@ -22,6 +22,9 @@ class Plugin extends PluginBase
     {
     }
 
+    
+    
+
     public function registerListColumnTypes()
     {
         return [
@@ -55,4 +58,5 @@ class Plugin extends PluginBase
         return substr($output, 0, -2);
     }
     
+
 }

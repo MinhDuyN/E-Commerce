@@ -43,29 +43,21 @@ use Pm\Menu\Models\Menu;
                        
                         <a class="nav-link header-title-parent h-100 pt-2 text-dark" href="{{ record.url }}">
                             {% if record.title == 'login' and user %}
-                            <p>Hello {{ user.name }}</p>
+                                Hello {{ user.name }}
                             {% else %}
-                            {{ record.title }}
+                                {{ record.title }}
                             {% endif %}
                         </a>
                             <ul class="nav-sub navbar-nav">
                                 {% for rc in smenu %}
                                 {% if rc.m == record.title %}
                                 <li class="nav-item py-1">
-                                    <a class="nav-link header-title text-dark" href='/{{record.url}}/{{ rc.surl }}''>
+                                    <a class="nav-link header-title text-dark" href='/{{record.url}}/{{ rc.surl }}'>
                                         {{ rc.s }}
                                     </a>
                                 </li>
                                 {% endif %}
                                 {% endfor %}
-                                {% if record.title == 'login' %}
-                                {% if user %}
-                                <li class="nav-item py-1">
-                                    <a class="btn outline" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
-                                </li>
-                                {% else %}          
-                                {% endif %} 
-                            {% endif %}
                             </ul>    
                     </li>
                         {% else %}
@@ -83,17 +75,23 @@ use Pm\Menu\Models\Menu;
                 {% if record.type == 1 %}
                     <li class="nav-item">
                         <a class="nav-link header-title-parent h-100 pt-2 text-dark" href="{{ record.url }}">
-                            {% if record.title == "signin" %}
-                                {% if users123 !=""  %}
-                                    My Profile
-                                {% endif %}                                
+                            {% if record.title == 'login' and user %}
+                                Hello {{ user.name }}
+                            {% elseif record.title == 'cart' %}
+                                <i class="fa fa-shopping-cart"></i> {{ record.title }}
                             {% else %}
-                                {{record.title}} {{users123}}
-                            {% endif %}
+                                {{ record.title }}
+                            {% endif  %}
+                                
                             
                         </a>
 
                         <ul class="nav-sub navbar-nav mx-auto">
+                            {% if record.title == 'login' and user %}
+                                <li class="nav-item py-1">
+                                    <a class="nav-link header-title text-dark h-100 pt-3" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
+                                </li>
+                            {% endif %}
                             {% for rc in smenu %}
                             {% if rc.m == record.title %}
                             <li class="nav-item py-1">                          
@@ -107,13 +105,6 @@ use Pm\Menu\Models\Menu;
                         </ul>
                     </li>
                     
-
-                    {% if user %}
-                        <li class="nav-item">
-                        <p>Hello {{ user.name }}</p>
-                        </li>
-                        <a class="nav-link header-title h-100 pt-3" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
-                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endfor %}

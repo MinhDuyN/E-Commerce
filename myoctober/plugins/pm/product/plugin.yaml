@@ -22,3 +22,15 @@ navigation:
                 label: 'Product Item'
                 url: pm/product/products
                 icon: icon-taxi
+            side-menu-item6:
+                label: 'Product Option Item'
+                url: pm/product/productoptions
+                icon: icon-cab
+            side-menu-item4:
+                label: 'Color Item'
+                url: pm/product/colors
+                icon: icon-adjust
+            side-menu-item5:
+                label: 'Size Item'
+                url: pm/product/sizes
+                icon: icon-signal
