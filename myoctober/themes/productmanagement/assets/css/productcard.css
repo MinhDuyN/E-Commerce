@@ -220,3 +220,24 @@
 #error{
   color: red;
 }
+
+.notification{
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  opacity: 0;
+  padding: 24px;
+  position: fixed;
+  width: 300px;
+  height: 200px;
+  top: 100px;
+  right: 250px;
+  transform: translateX(30px);
+  transition: 200ms all linear;
+}
+.notification-show{
+  opacity: 1;
+  transform: translateX(0);
+}

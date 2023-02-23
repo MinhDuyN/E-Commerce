@@ -58,11 +58,14 @@ is_hidden = 0
 	    	];
     	}
 
-    	
+	
+    }
 
-    	
-    	
-    	
+    public function onDeleteCartId(){
+    	$id=Input::get('id');
+
+    	$cartid = str_replace(" ","",$id);
+    	Cookie::queue($cartid,null, -1);
     }
 
 
@@ -73,20 +76,20 @@ is_hidden = 0
 ==
 {% put styles %}
     <link href="{{ 'assets/css/cart.css'|theme }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 {% endput %}
 
 <div class="cart-title mt-4 mb-4 d-flex justify-content-between">
 	<div class="d-flex flex-row">
 		<div>
-			<input type="checkbox" name="check">
+			<input type="checkbox" name="checkall">
 		</div>
 		<div>
 			Sản phẩm
 		</div>
 	</div>
 	<div class="d-flex flex-row">
-		<div>
+		<div class="mr-5">
 			Đơn giá
 		</div>
 		<div class="number text-center">
@@ -108,7 +111,8 @@ is_hidden = 0
 			<input type="checkbox" name="check">
 		</div>
 		<div>
-			{{ob.name}}
+			<img class="mr-3" src="{{ob.image}}" width="100px" height="100px">
+			{{ob.name}}{{ob.color}}{{ob.size}}
 		</div>
 	</div>
 	<div class="d-flex flex-row">
@@ -119,17 +123,38 @@ is_hidden = 0
 			<input id="cart{{ob.id}}{{ob.color}}{{ob.size}}" class="number-spinner" type="number" value="{{ob.quantity}}" min="0" max="100" /> 
 		</div>
 		<div class="total">
-			<span class="total_spin">{{ob.total}} $</span>
+			<span class="total_spin">{{ob.total}} </span><span> $</span>
 			<div class="spin spinner-border text-primary" role="status">
 			  <span class="visually-hidden"></span>
 			</div>
 		</div>
-		<div>
-			Thao tác
+		<div class="trash-cart">
+			<a onclick="deletecart('cart{{ob.id}}{{ob.color}}{{ob.size}}')"><i class="fa fa-trash"></i></a>
+			
 		</div>
 	</div>
 </div>
 {% endfor %}
+
+<div id="bottom" class="cart-title mt-4 mb-4 d-flex justify-content-between align-items-center">
+	<div class="d-flex flex-row">
+		
+		<div>
+			Lưu vào mục đã thích
+		</div>
+	</div>
+	<div class="d-flex flex-row align-items-center">
+		
+		<div class="total-bottom">
+			Tổng thanh toán ( 0 sản phẩm): 0đ
+		</div>
+		<div>
+			<button class="btn btn-primary">Mua Hàng</button>
+		</div>
+	</div>
+</div>
+
+
 
 {% put scripts %}
     <script src="{{ 'assets/js/bootstrap-input-spinner.js'|theme }}"></script>
@@ -138,6 +163,7 @@ is_hidden = 0
         $("input[type='number']").inputSpinner()
 
         $('.number-spinner').on('change',function(event){
+
       		event.target.parentElement.parentElement.children[2].children[0].style.display='none';
         	event.target.parentElement.parentElement.children[2].children[1].style.display='block';
         	$.request(
@@ -148,7 +174,6 @@ is_hidden = 0
                     	id: event.target.id
                     },
                     success: function(data) {
-                    	
                     	if(data.total){
                     		event.target.parentElement.parentElement.children[2].innerHTML=`<span class="total_spin">${data.total.toFixed(2)} $</span>
 								<div class="spin spinner-border text-primary" role="status">
@@ -161,10 +186,91 @@ is_hidden = 0
                     
                     	}
                     	
+
+                    	dom_bottom();
                     	
                       
                     }
                 })
         })
+
+
+
+        function deletecart(id){
+        	
+        	$.request(
+                'onDeleteCartId',
+                {
+                    data: {
+                    	id: id
+                    },
+                    success: function(data) {
+                    	var ob=document.getElementById(id);
+                    	ob.parentElement.parentElement.parentElement.remove();
+                                
+                    }
+                })
+        }
+
+
+        $('input[name="checkall"]').on('click',function(e){
+        	if($('input[name="checkall"]:checked').val()){
+        		$('input[name="check"]').prop('checked', true);
+        		dom_bottom();
+        	}else{
+        		$('input[name="check"]').prop('checked', false);
+        		dom_bottom();
+        	}
+        })
+
+
+        
     </script>
+
+    <script type="text/javascript">
+    	 const position=$('#bottom').offset().top;
+    	$(window).scroll(function (event) {
+    	
+    		if($(window).scrollTop()+580 < position){
+    			if($('#bottom').hasClass('cart-bottom')){
+
+    			}else{
+    				$('#bottom').addClass('cart-bottom');
+    			}
+    			
+    		}else{
+    			if($('#bottom').hasClass('cart-bottom')){
+    				$('#bottom').removeClass('cart-bottom');
+    			}
+    			
+    		}
+		    
+		});
+
+
+	$('input[name="check"]').on('click',function(e){
+		dom_bottom();
+	})
+
+
+
+	function dom_bottom(){
+		var arr=$('input[name="check"]:checked');
+		var arr2=$('input[name="check"]');
+		var tong=0,number=0;
+		for (var i =0; i <arr.length; i++) {
+			tong+=parseFloat(arr[i].parentElement.parentElement.parentElement.children[1].children[2].children[0].textContent);
+			number++;
+		}
+		if(number==0){
+			$('input[name="checkall"]').prop('checked', false);
+		}else if(number==arr2.length){
+			$('input[name="checkall"]').prop('checked', true);
+		}else{
+			$('input[name="checkall"]').prop('checked', false);
+		}
+		$('.total-bottom').html(`Tổng thanh toán ( ${number} sản phẩm): ${tong.toFixed(2)} $`); 
+	}
+    </script>
+
 {% endput %}

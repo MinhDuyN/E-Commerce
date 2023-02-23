@@ -61,3 +61,17 @@
 .number{
 	width: 120px;
 }
+.trash-cart a{
+  cursor: pointer;
+}
+.trash-cart a:hover .fa-trash{
+  color: red;
+}
+.cart-bottom{
+  position: fixed;
+  bottom: 0;
+  width: 80%;
+  border: 1px solid gray;
+  animation: all 0.5s;
+  margin-bottom: 0 !important;
+}
