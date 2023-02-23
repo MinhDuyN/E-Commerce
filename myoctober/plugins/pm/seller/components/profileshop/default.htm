@@ -1,0 +1,53 @@
+{% set shopseller = __SELF__.shopseller %}
+
+
+{{ form_open({files: true, request: 'onUpdate'}) }}
+<!-- <form data-request="onUpdate" id="form" method="post" enctype="multipart/form-data"> -->
+<div class="wrapper fadeInUp">
+    <div id="formContent">
+        <input type="hidden" name="_handler" value="onUpdate">
+        {{form_token()}}
+        {{form_sessionKey()}}
+
+        <h2 class="active"> Cập Nhật Shop </h2>
+        <table>
+            <tr>
+                <th><label> Ten Shop </label></th>
+                <th><input class="fadeIn second" name="shopname" type="text" id="registerName"
+                        placeholder="Enter your Shop name" value='{{shopseller.shopname}}' /></th>
+            </tr>
+            <tr>
+                <td><label> Phone </label></td>
+                <td><input class="fadeIn second" name="shopphone" type="text" id="registerName"
+                        placeholder="Enter your Shop phone" value='{{shopseller.phone}}' /></td>
+            </tr>
+            <tr>
+                <td><label> Email </label></td>
+                <td><input class="fadeIn second" name="shopemail" type="text" id="registerName"
+                        placeholder="Enter your Shop email" value='{{shopseller.email}}' /></td>
+            </tr>
+            <tr>
+                <td><label> Address </label></td>
+                <td><input class="fadeIn second" name="shopaddress" type="text" id="registerName"
+                        placeholder="Enter your Shop address" value='{{shopseller.address}}' /></td>
+            </tr>
+            <tr>
+                <td><label> Mo ta </label></td>
+                <td><input class="fadeIn second" name="shopdescription" type="text" id="registerName"
+                        placeholder="Enter your Shop description" value='{{shopseller.description}}' /></td>
+            </tr>
+
+            <tr>
+                <td><label> Avatar </label></td>
+                <td><img src='{{ shopseller.image.path }}'
+                        style="border-bottom-left-radius: 20%; max-width: 170px; max-height: 200px;"></td>
+            </tr>
+            <tr>
+                <td><input type="file" id="gallery" name="gallery" accept=".jpg, .jpeg, .png" /></td>
+                <td><input type="submit" class="fadeIn third" value="Update"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- </form> -->
+{{ form_close() }}

@@ -1,0 +1,49 @@
+{% set shopslider = __SELF__.shopslider %}
+{{ form_open({files: true, request: 'onInsert'}) }}
+<form>
+    <table>
+        <tr>
+            <td><label> Title </label></td>
+            <td><input class="fadeIn second" name="title" type="text" /></td>
+        </tr>
+        <tr>
+            <td><label> Url </label></td>
+            <td><input class="fadeIn second" name="url" type="text" /></td>
+        </tr>
+        <tr>
+            <td><input type="file" id="img" name="img" accept=".jpg, .jpeg, .png" /></td>
+            <td><input type="submit" class="fadeIn third" value="Add"></td>
+        </tr>
+    </table>
+</form>
+{{ form_close() }}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>TITLE</th>
+        <th>URL</th>
+    </tr>
+    {% for slider in shopslider %}
+    {{ form_open({files: true, request: 'onUpdate'}) }}
+    <form>
+        <tr>
+            <td>{{ slider.id }}<input id="id" name="id" type="text" value='{{slider.id}}' hidden /></td>
+            <td><input type="text" name="slidertitle" value='{{ slider.title }}' /></td>
+            <td><input type="text" name="sliderurl" value='{{ slider.url }}' /></td>
+            <td><img src='{{ slider.image.path }}'
+                    style="border-bottom-left-radius: 20%; max-width: 170px; max-height: 200px;" /></td>
+            <td><input type="file" id="img" name="img" accept=".jpg, .jpeg, .png" /></td>
+            <td><input type="submit" class="fadeIn third" value="Update" /></td>
+        </tr>
+    </form>
+    {{ form_close() }}
+    {{ form_open({request: 'onDelete'}) }}
+    <form>
+        <tr>
+            <td><input id="id" name="id" type="text" value='{{slider.id}}' hidden /></td>
+            <td><input type="submit" class="fadeIn third" value="Delete" /></td>
+        </tr>
+    </form>
+    {{ form_close() }}
+    {% endfor %}
+</table>

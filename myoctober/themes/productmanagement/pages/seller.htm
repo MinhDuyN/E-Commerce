@@ -5,9 +5,11 @@ is_hidden = 0
 
 [session]
 security = "user"
+
+[addshop]
 ==
-{% if user %}
-<li class="nav-item"></li>
-<p>Hello {{ user.type_user }}</p>
-{% else %}
-{% endif %}
+<link href="{{ 'assets/login_template/css/style.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/banner.css'|theme }}" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+{% component 'addshop' %}

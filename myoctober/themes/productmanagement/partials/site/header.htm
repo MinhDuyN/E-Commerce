@@ -63,9 +63,13 @@ use Pm\Menu\Models\Menu;
                                 <li class="nav-item py-1">
                                     <a class="btn outline" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
                                 </li>
-                                {% else %}          
+                                {% if user.type_user == 'seller' %}
+                                <li class="nav-item py-1">
+                                    <a class="btn outline" href="/seller">Kênh bán hàng</a>
+                                </li>
+                                {% endif %}      
                                 {% endif %} 
-                            {% endif %}
+                                {% endif %}
                             </ul>    
                     </li>
                         {% else %}

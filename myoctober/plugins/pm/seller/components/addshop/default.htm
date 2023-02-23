@@ -1,0 +1,77 @@
+{% set shopBool = __SELF__.shopBool %}
+{% set shopseller = __SELF__.shopseller %}
+{% set shopslider = __SELF__.shopslider %}
+{% if shopBool == false %}
+<form data-request="onSend" id="form" method="post">
+    <div class="wrapper fadeInUp">
+        <div id="formContent">
+            <h2 class="active"> Add Shop </h2>
+            <strong class="active"> Vui lòng đăng ký cửa hàng của bạn </strong>
+            <input class="fadeIn second" name="shopname" type="text" id="registerName"
+                placeholder="Enter your Shop name" />
+            <input class="fadeIn second" name="shopphone" type="text" id="registerName"
+                placeholder="Enter your Shop phone" />
+            <input class="fadeIn second" name="shopemail" type="text" id="registerName"
+                placeholder="Enter your Shop email" />
+            <input class="fadeIn second" name="shopaddress" type="text" id="registerName"
+                placeholder="Enter your Shop adress" />
+
+            <input type="submit" class="fadeIn third" value="Register">
+        </div>
+    </div>
+</form>
+{% else %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="container d-flex">
+            <div class="mt-5 text-center">
+                <div class="fadeIn first">
+                    <div id="formContent" style="margin: auto; text-align: center;">
+                        <div class="center" style="overflow: hidden;">
+                            <img src='{{ shopseller.image.path }}'
+                                style="border-bottom-left-radius: 50%; max-width: 170px; max-height: 200px;">
+                        </div>
+                        <div>
+                            Welcome back
+                            <div class="active"><strong>{{ shopseller.shopname }}</strong></div>
+                        </div>
+                        <div class="center">
+                            <span><i>{{ shopseller.description }}</i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 text-center">
+                <a class="btn btn-secondary" style="margin-top: 10%;" href="/seller/profile">Hồ Sơ Cá Nhân</a></br>
+                <a class="btn btn-secondary" style="margin-top: 10%;" href="/seller/banner">Quản lý Banner</a></br>
+                <a class="btn btn-secondary" style="margin-top: 10%;" href="/seller/product">Quản lý Sản Phẩm</a></br>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="wrapper">
+            <div id="slider-wrap">
+                <ul id="slider">
+                    {% for slider in shopslider %}
+                    <li>
+                        <a href="{{slider.url}}"><img src='{{ slider.image.path }}' style="width: 750px; min-height: 500px;"/></a>
+                        <div>
+                            <h3>{{slider.title}}</h3>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!--controls-->
+                <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
+                <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
+                <div id="counter"></div>
+                <div id="pagination-wrap">
+                    <ul>
+                    </ul>
+                </div>
+                <!--controls-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

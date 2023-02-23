@@ -11,6 +11,7 @@ use Cms\Classes\ComponentBase;
 use RainLab\User\Models\UserGroup;
 use SystemException;
 
+
 /**
  * Session component
  *
@@ -141,6 +142,7 @@ class Session extends ComponentBase
     public function onLogout()
     {
         $user = Auth::getUser();
+        
 
         Auth::logout();
 
