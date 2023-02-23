@@ -1,7 +1,7 @@
 fields:
     ProductUserName:
         label: 'User Name'
-        nameFrom: name
+        nameFrom: shopname
         descriptionFrom: description
         span: auto
         type: relation

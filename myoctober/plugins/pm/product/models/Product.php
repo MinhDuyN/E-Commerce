@@ -47,9 +47,10 @@ class Product extends Model
             'order' => 'name'
         ],
         'ProductUserName'=>[
-            'Rainlab\User\Models\User',
-            'table' => 'users',
-            'order' => 'name'
+            'Pm\Seller\Models\Shop',
+            'key'=>'seller_shop_id',
+            'table' => 'pm_seller_shop',
+            'order' => 'shopname'
         ]
     ];
 

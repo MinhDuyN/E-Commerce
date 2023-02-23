@@ -99,3 +99,9 @@
 1.0.34:
     - 'Updated table pm_product_option'
     - builder_table_update_pm_product_option_2.php
+1.0.35:
+    - 'Updated table pm_product_'
+    - builder_table_update_pm_product__7.php
+1.0.36:
+    - 'Updated table pm_product_'
+    - builder_table_update_pm_product__8.php
