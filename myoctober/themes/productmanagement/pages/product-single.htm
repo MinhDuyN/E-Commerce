@@ -1,0 +1,211 @@
+title = "product single"
+url = "/products/:slug"
+layout = "default"
+is_hidden = 0
+
+[builderDetails]
+modelClass = "Pm\Product\Models\Product"
+identifierValue = "{{ :slug }}"
+modelKeyColumn = "slug"
+displayColumn = "name"
+notFoundMessage = "Record not found"
+
+==
+<?php
+
+
+
+
+    public function onStart(){
+      
+        
+       
+       
+    }
+
+    public function onSave(){
+
+        $data = post();
+         
+
+        $cart = str_replace(" ","",'cart'.$data[1]['value'].$data[5]['value'].$data[6]['value']);
+
+
+
+        if(Cookie::get($cart)==null){
+
+            $ob=[];
+            foreach($data as $name => $value){
+                $ob[$value['name']]=$value['value'];
+            }
+            $ob['total']=$ob['quantity']*$ob['price'];
+          
+
+            Cookie::queue($cart,json_encode($ob), time()+86400);
+        }else{
+            $ob=[];
+            $quantity=json_decode(Cookie::get($cart))->quantity;
+
+            $ob=[];
+            foreach($data as $name => $value){
+                $ob[$value['name']]=$value['value'];
+            }
+
+            $ob['quantity']= $ob['quantity']+$quantity;
+            $ob['total']=$ob['quantity']*$ob['price'];
+            Cookie::queue($cart,json_encode($ob), time()+86400);
+            
+           
+        }
+
+         Cookie::queue('sum_product',count(Cookie::get())-2, time()+86400);
+        
+
+        
+       
+    }
+
+?>
+==
+{% set record = builderDetails.record %}
+{% set displayColumn = builderDetails.displayColumn %}
+{% set notFoundMessage = builderDetails.notFoundMessage %}
+
+{% put styles %}
+    <link href="{{ 'assets/css/productcard.css'|theme }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endput %}
+
+
+<div class="view-home w-100 h-100 view-home-product">
+    <div class="photo-gallery d-flex flex-column">
+        <div class="product-main zooma-main">
+            
+        </div>
+        <div class="product-thumbnails zooma-thumbnail product__focus">
+            <div class="items">
+                <img class="item" src="{{record.image.path}}">
+                {% partial 'components/ListGallery' id=record.id %}
+            </div>
+            
+           
+           
+
+        </div>
+        <div class="arrow-left"><i class="fa fa-arrow-left"></i></div>
+        <div class="arrow-right"><i class="fa fa-arrow-right"></i></div>
+    </div>
+    <div class="option-product d-flex flex-column">
+        <div class="op-title">{{record.name}}</div>
+        <div class="op-feedback d-flex flex-row w-100 position-relative">
+            <div>rate</div>
+            <div><span class="text-dark">6</span> đánh giá</div>
+            <div>đã bán</div>
+            <div class="report">tố cáo</div>
+        </div>
+        <div class="sale"></div>
+        <div class="op-price">
+            <div>{{record.make_price}} $</div>
+        </div>
+        <div class="op-form d-flex flex-row">
+            <div class="op-form-text">
+                <div>Bảo hiểm</div>
+                <div>Vận chuyển</div>
+                <div class="pt-2 pb-3">Màu</div>
+                <div class="pt-2 pb-3">Size</div>
+                <div>&nbsp;</div>
+                <div>Số lượng</div>
+            </div>
+            <div class="op-form-input">
+                <div>Bảo hiểm thời trang <a class="ml-3" href="#"> Tìm hiểu thêm</a></div>
+                <div>Miễn phí vận chuyển</div>
+                {% partial 'components/SizeAndColor' id=record.id %}
+                <div><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg">Bảng quy đổi kích cở ></a></div>
+                <div class="w-100">
+                    <input form="form-cart" type="number" name="quantity" value="1" min="1" max="100"/> 
+                    <label class="quantity"> sản phẩm có sẵn</label>
+                    <div id="error"> </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row ml-5 mt-3 border-bottom pb-5">
+            <button form="form-cart" type="submit" class="mr-5 btn btn-outline-primary"><i class="fa fa-cart-plus"></i> Thêm vào giỏ hàng</button>
+            <button class="btn btn-info" onclick="notifi()">Mua ngay</button>
+        </div>
+        <div class="mt-3">
+            {{record.description}}
+            
+        </div>
+    </div>
+</div>
+<form id="form-cart" enctype="multipart/form-data" onsubmit="return checkform()">
+    <input type="hidden" name="id" value="{{record.id}}">
+    <input type="hidden" name="name" value="{{record.name}}">
+    <input type="hidden" name="price" value="{{record.make_price}}">
+    <input type="hidden" name="image" value="{{record.image.path}}">
+    <input type="hidden" name="color" >
+    <input type="hidden" name="size" >
+</form>
+
+
+<!-- Large modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <img src="https://cf.shopee.vn/file/sg-11134201-22110-kslll0kq2fjvb7" width="100%">
+    </div>
+  </div>
+</div>
+
+<div class="notification">
+    dsff
+</div>
+
+{% put scripts %}
+    <script src="{{ 'assets/js/productcard.js'|theme }}"></script>
+    <script src="{{ 'assets/js/bootstrap-input-spinner.js'|theme }}"></script>
+    <script>
+        $("input[type='number']").inputSpinner()
+
+        $(".color").on('click',function(){
+            $('.color').removeClass('op-active');
+            $(this).addClass('op-active');
+            $('input[name="color"]').val($(this).text());
+          
+        })
+
+        $(".size").on('click',function(){
+            $('.size').removeClass('op-active');
+            $(this).addClass('op-active');
+            $('input[name="size"]').val($(this).text());
+          
+        })
+
+
+        $(".quantity").html($('input[name="quantity"]').val()+" sản phẩm có sẵn");
+
+    </script>
+    <script type="text/javascript">
+        function checkform(){
+            if($(".color").hasClass('op-active') && $(".size").hasClass('op-active')){
+                $('#error').html("");
+
+                $.request(
+                'onSave',
+                {
+                    data: $('#form-cart').serializeArray(),
+                    success: function(data) {
+                        
+                    }
+                })
+                return false;
+            }
+            $('#error').html("vui lòng chọn phân loại trang!");
+            return false;
+        }
+
+        function notifi(){
+            $('.notification').toggleClass('notification-show');
+        }
+    </script>
+{% endput %}

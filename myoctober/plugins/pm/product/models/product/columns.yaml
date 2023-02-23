@@ -16,3 +16,6 @@ columns:
     active:
         label: 'Trạng thái'
         type: text
+    slug:
+        label: Slug
+        type: text

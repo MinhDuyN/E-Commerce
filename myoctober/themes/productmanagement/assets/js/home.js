@@ -2,7 +2,7 @@
 
 
 $(document).ready(function() {
-
+	
 	$('.view-home-1-content').hover(()=>{
 		if($('.view-home-1-midcontent').hasClass('view-home-1-midcontent-show')){
 			$('.view-home-1-midcontent').removeClass('view-home-1-midcontent-show')
@@ -21,7 +21,7 @@ $(document).ready(function() {
 	$('.category-nav').hover((eventObj)=>{
 			timer=setTimeout(()=>{
 				getCategory(eventObj.target.id)
-			},200);
+			},100);
 
 		},
 			function () {

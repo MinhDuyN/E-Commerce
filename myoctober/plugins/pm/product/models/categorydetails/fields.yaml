@@ -14,3 +14,10 @@ fields:
         nameFrom: name
         descriptionFrom: description
         type: relation
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text

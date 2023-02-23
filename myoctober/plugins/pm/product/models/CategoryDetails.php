@@ -21,7 +21,13 @@ class CategoryDetails extends Model
      */
     public $table = 'pm_product_category_details';
 
+    public function scopePopular($query,$type)
+    {
 
+        return $query->take($type);
+        
+    }
+    
     /* Relation */
     public $belongsTo=[
         'ParentCategory'=>[

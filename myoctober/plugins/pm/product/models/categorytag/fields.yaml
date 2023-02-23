@@ -3,6 +3,13 @@ fields:
         label: Name
         span: auto
         type: text
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text
     hint:
         label: 'gợi ý'
         span: left

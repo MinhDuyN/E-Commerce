@@ -4,8 +4,3 @@ plugin:
     author: pm
     icon: oc-icon-adjust
     homepage: ''
-navigation:
-    main-menu-item:
-        label: user
-        url: pm/user/user
-        icon: icon-life-ring
