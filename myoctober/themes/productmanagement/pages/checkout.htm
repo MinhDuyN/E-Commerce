@@ -10,7 +10,7 @@ use Pm\Product\Models\Checkout;
 use Pm\Product\Models\CheckoutDetails;
 public function onStart(){
   $arr=Session::get('message');
- 
+
   if($arr==null){
     return Redirect::back();
   }
@@ -236,7 +236,7 @@ public function onCreateCheckout(){
         </select>
       </div> 
       <div class="form-group fg_2 dom-payment"> 
-        asdad
+        <div id="paypal-button-container"></div>
       </div> 
        
 
@@ -279,6 +279,7 @@ public function onCreateCheckout(){
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ 'assets/js/checkout.js'|theme }}"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=ARtun6JnfxSHa3JZ-1OgFFqiHrReoj0DPeD3SfoMORX5zmkiPcOSeaO6G9ql1Epw27IfalEjq6DBwPNK"></script>
         <script type="text/javascript">
         $(document).ready(function() {
           $('.dom-payment').addClass('hidden')
@@ -347,6 +348,55 @@ public function onCreateCheckout(){
         });
 
           
+        </script>
+        <script>
+          const paypalButtonsComponent = paypal.Buttons({
+              // optional styling for buttons
+              // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+              style: {
+                color: "blue",
+                shape: "rect",
+                layout: "vertical"
+              },
+
+              // set up the transaction
+              createOrder: (data, actions) => {
+                  // pass in any options from the v2 orders create call:
+                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+                  const createOrderPayload = {
+                      purchase_units: [
+                          {
+                              amount: {
+                                  value: "{{tong}}"
+                              }
+                          }
+                      ]
+                  };
+
+                  return actions.order.create(createOrderPayload);
+              },
+
+              // finalize the transaction
+              onApprove: (data, actions) => {
+                  const captureOrderHandler = (details) => {
+                      const payerName = details.payer.name.given_name;
+                      console.log('Transaction completed');
+                  };
+
+                  return actions.order.capture().then(captureOrderHandler);
+              },
+
+              // handle unrecoverable errors
+              onError: (err) => {
+                  console.error('An error prevented the buyer from checking out with PayPal');
+              }
+          });
+
+          paypalButtonsComponent
+              .render("#paypal-button-container")
+              .catch((err) => {
+                  console.error('PayPal Buttons failed to render');
+              });
         </script>
     </body>
 </html>

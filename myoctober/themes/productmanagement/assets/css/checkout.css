@@ -274,6 +274,12 @@
 
 
 .hidden{
-  visibility: hidden;
+  display: none !important;
   animation: all 0.5s;
+  
 }
+.product_select{
+  margin-bottom: 3em;
+}
+
+
