@@ -16,8 +16,10 @@ use Pm\Menu\Models\Menu;
     use Pm\Menu\Models\SubMenu;
 
     function onStart(){
-        if(Cookie::get('admin_auth')){
-          Cookie::queue('sum_product',count(Cookie::get())-3, time()+86400);
+        if(Cookie::get('user_auth')){
+          Cookie::queue('sum_product',count(Cookie::get())-4, time()+86400);
+        }elseif(Cookie::get('admin_auth')){
+            Cookie::queue('sum_product',count(Cookie::get())-3, time()+86400);
         }else{
             Cookie::queue('sum_product',count(Cookie::get())-2, time()+86400);
         }

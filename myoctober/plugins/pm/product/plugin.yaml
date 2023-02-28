@@ -34,3 +34,11 @@ navigation:
                 label: 'Size Item'
                 url: pm/product/sizes
                 icon: icon-signal
+            side-menu-item7:
+                label: 'Checkout item'
+                url: pm/product/checkout
+                icon: icon-briefcase
+            side-menu-item8:
+                label: 'Checkout Details'
+                url: pm/product/checkoutdetails
+                icon: icon-shopping-cart

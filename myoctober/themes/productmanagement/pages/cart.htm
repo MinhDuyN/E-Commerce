@@ -9,6 +9,11 @@ is_hidden = 0
 	public function onStart(){
 
 
+		if (Session::has('message')) {
+		    Session::flush('message');
+		}
+
+
         $a = Cookie::get();
     
 
@@ -70,7 +75,8 @@ is_hidden = 0
     }
 
     public function onCheckout(){
-    	 return Redirect::to('checkout')->with('message',Input::get('id'));
+    	Session::put('message',Input::get('id'));
+    	return Redirect::to('checkout');
     }
 ?>
 
@@ -79,7 +85,8 @@ is_hidden = 0
 ==
 {% put styles %}
     <link href="{{ 'assets/css/cart.css'|theme }}" rel="stylesheet">
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 {% endput %}
 
 <div class="cart-title mt-4 mb-4 d-flex justify-content-between">
@@ -161,6 +168,8 @@ is_hidden = 0
 
 {% put scripts %}
     <script src="{{ 'assets/js/bootstrap-input-spinner.js'|theme }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script>
     	$('.spin').hide();
         $("input[type='number']").inputSpinner()
@@ -259,20 +268,35 @@ is_hidden = 0
 
 	$('#check-cart-data').on('click',function(){
 		var arr=$('input[name="check"]:checked');
-		const arr2=[];
-		for(var i=0;i<arr.length;i++){
-			arr2.push(arr[i].parentElement.parentElement.parentElement.children[1].children[1].children[0].getAttribute('id').replace(/ /g,''));
+		if(arr.length>0){
+			const arr2=[];
+			for(var i=0;i<arr.length;i++){
+				arr2.push(arr[i].parentElement.parentElement.parentElement.children[1].children[1].children[0].getAttribute('id').replace(/ /g,''));
+			}
+			
+
+			$.request(
+	        'onCheckout',
+	        {
+	            data: {
+	            	id: arr2
+	            },
+	            
+	        })
+		}else{
+			Toastify({
+			  text: "bạn chưa chọn mặt hàng thanh toán!!",
+			  className: "info",
+			  duration: 1500,
+			  position: "center",
+			  gravity: "top",
+			  style: {
+			    background: "linear-gradient(to right, #ee9ca7, #ffdde1)",
+			    color:"gray",
+			  }
+			}).showToast();
 		}
 		
-
-		$.request(
-        'onCheckout',
-        {
-            data: {
-            	id: arr2
-            },
-            
-        })
 			
 		
 	})

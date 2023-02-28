@@ -269,3 +269,11 @@
         color: #fff; }
 
 /*# sourceMappingURL=lam.css.map */
+
+
+
+
+.hidden{
+  visibility: hidden;
+  animation: all 0.5s;
+}

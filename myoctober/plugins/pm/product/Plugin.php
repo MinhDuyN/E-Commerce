@@ -31,8 +31,14 @@ class Plugin extends PluginBase
         return [
             // A local method, i.e $this->evalUppercaseListColumn()
             'categoryname' => [$this, 'evalTypecategoryNameColumn'],
+            'phone' => [$this, 'evalTypePhoneNameColumn'],
             'categorydetailsname' => [$this, 'evalTypecategoryDetailsNameColumn']
         ];
+    }
+
+
+    public function evalTypePhoneNameColumn($value, $column, $record){
+        return $record->tel.$record->phone;
     }
 
     public function evalTypecategoryNameColumn($value, $column, $record)

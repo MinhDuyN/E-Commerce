@@ -105,3 +105,30 @@
 1.0.36:
     - 'Updated table pm_product_'
     - builder_table_update_pm_product__8.php
+1.0.37:
+    - 'Created table pm_product_checkout'
+    - builder_table_create_pm_product_checkout.php
+1.0.38:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout.php
+1.0.39:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout_2.php
+1.0.40:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout_3.php
+1.0.41:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout_4.php
+1.0.42:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout_5.php
+1.0.43:
+    - 'Updated table pm_product_checkout'
+    - builder_table_update_pm_product_checkout_6.php
+1.0.44:
+    - 'Created table pm_product_checkout_details'
+    - builder_table_create_pm_product_checkout_details.php
+1.0.45:
+    - 'Updated table pm_product_checkout_details'
+    - builder_table_update_pm_product_checkout_details.php
