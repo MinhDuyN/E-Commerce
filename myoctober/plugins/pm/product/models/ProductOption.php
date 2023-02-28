@@ -8,7 +8,6 @@ use Model;
 class ProductOption extends Model
 {
     use \October\Rain\Database\Traits\Validation;
-    
     /*
      * Disable timestamps by default.
      * Remove this line if timestamps are defined in the database table.
@@ -21,6 +20,22 @@ class ProductOption extends Model
      */
     public $table = 'pm_product_option';
 
+
+    // public function filterFields($fields, $context = null)
+    //  {
+    //     $ob=ProductOption::query()
+    //     ->join('pm_product_','pm_product_option.product_name_id','pm_product_.id')
+    //     ->get();
+        
+    //     foreach ($ob as $value) {
+    //         if($value->product_category_details_id!=1 && $value->product_category_details_id!=2){
+    //             $fields->ColorName->hidden=true;
+    //             $fields->SizeName->hidden=true;
+    //         }
+    //     }
+        
+        
+    //  }
 
     /* Relation */
     public $belongsToMany=[
@@ -51,6 +66,13 @@ class ProductOption extends Model
     /**
      * @var array Validation rules
      */
+    protected $fillable = [
+        'description',
+        'quantity',
+        'product_name_id'
+    ];
+
     public $rules = [
+        'product_name_id'    => 'unique:pm_product_option',
     ];
 }

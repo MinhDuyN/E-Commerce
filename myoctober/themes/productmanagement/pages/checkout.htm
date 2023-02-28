@@ -1,0 +1,145 @@
+title = "checkout"
+url = "/checkout"
+is_hidden = 0
+==
+public function onStart(){
+  dd(Session::get('message'));
+}
+==
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>October CMS - {{ this.page.title }}</title>
+        <meta name="description" content="{{ this.page.meta_description }}">
+        <meta name="title" content="{{ this.page.meta_title }}">
+        <meta name="authora" content="OctoberCMS">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="generator" content="OctoberCMS">
+        <link rel="icon" type="image/png" href="{{ 'assets/images/october.png'|theme }}">
+        <link href="{{ 'assets/css/checkout.css'|theme }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/css/intlTelInput.css">
+        <link rel="stylesheet" type="text/css" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+        {% styles %}
+    </head>
+    <body>
+    	<!-- Multi step form --> 
+<section class="multi_step_form">  
+  <form id="msform"> 
+    <!-- Tittle -->
+    <div class="tittle">
+     
+    
+      <h2>Checkout Process</h2>
+      <p>In order to use this service, you have to complete this Checkout process</p>
+    </div>
+    <!-- progressbar -->
+    <ul id="progressbar">
+      <li class="active">Information</li>  
+      <li>cart</li> 
+      <li>Security Questions</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset>
+      <h3>Setup your information</h3>
+
+      <div class="form-row mb-4"> 
+        <label for="name" class="form-label">Họ tên</label>
+		<input type="text" id="name" class="form-control">
+		<label for="email" class="form-label">Email</label>
+		<input type="email" id="email" class="form-control">
+		<label for="address" class="form-label">Địa chỉ</label>
+		<input type="text" id="address" class="form-control">
+		<label for="phone" class="form-label mt-4 mr-1">Số điện thoại</label>
+		<div class="form-row mb-4 mt-4"> 
+			<div class="form-group col-md-6">  
+	          <input type="tel" id="phone" class="form-control" placeholder="+84" width="80px">
+	        </div>  
+	        <div class="form-group col-md-6"> 
+	          <input type="text" class="form-control" placeholder="868576334">
+	        </div> 
+    	</div>
+      </div> 
+     
+      <button type="button" class="action-button previous_button">Back</button>
+      <button type="button" class="next action-button">Continue</button>  
+    </fieldset>
+
+    <fieldset>
+      <h3>your product</h3>
+      <h6>please checking your products</h6>
+      <table class="table mb-5">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">sản phẩm</th>
+            <th scope="col">số lượng</th>
+            <th scope="col">đơn giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ob in cart  %}
+            <tr>
+              <th scope="row"><img src="{{ob.image}}" width="60px" height="60px"></th>
+              <td>{{ob.name}}</td>
+              <td>{{ob.quantity}}</td>
+              <td>{{ob.price}}</td>
+            </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+      
+      
+      <button type="button" class="action-button previous previous_button">Back</button>
+      <button type="button" class="next action-button">Continue</button>  
+    </fieldset>  
+    <fieldset>
+      <h3>Create Security Questions</h3>
+      <h6>Please update your account with security questions</h6> 
+      <div class="form-group"> 
+        <select class="product_select">
+          <option data-display="1. Choose A Question">1. Choose A Question</option> 
+          <option>2. Choose A Question</option>
+          <option>3. Choose A Question</option> 
+        </select>
+      </div> 
+      <div class="form-group fg_2"> 
+        <input type="text" class="form-control" placeholder="Anwser here:">
+      </div> 
+      <div class="form-group"> 
+        <select class="product_select">
+          <option data-display="1. Choose A Question">1. Choose A Question</option> 
+          <option>2. Choose A Question</option>
+          <option>3. Choose A Question</option> 
+        </select>
+      </div> 
+      <div class="form-group fg_3"> 
+        <input type="text" class="form-control" placeholder="Anwser here:">
+      </div> 
+      <button type="button" class="action-button previous previous_button">Back</button> 
+      <a href="#" class="action-button">Finish</a> 
+    </fieldset>  
+  </form>  
+</section> 
+<!-- End Multi step form -->   
+        
+
+        <!-- Scripts -->
+       
+        
+       
+        {% framework extras %}
+        {% scripts %}
+       
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/js/intlTelInput.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+        <script type="text/javascript" src="{{ 'assets/js/checkout.js'|theme }}"></script>
+    </body>
+</html>

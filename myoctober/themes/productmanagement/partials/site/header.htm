@@ -16,6 +16,15 @@ use Pm\Menu\Models\Menu;
     use Pm\Menu\Models\SubMenu;
 
     function onStart(){
+        if(Cookie::get('admin_auth')){
+          Cookie::queue('sum_product',count(Cookie::get())-3, time()+86400);
+        }else{
+            Cookie::queue('sum_product',count(Cookie::get())-2, time()+86400);
+        }
+
+
+        $this['total']=Cookie::get('sum_product');
+
         $this['menu']= Menu::get();
         $this['smenu']= DB::table('pm_menu_submenu')
         ->Join('pm_menu_','pm_menu_submenu.parent_name_id','=','pm_menu_.id')
@@ -50,19 +59,19 @@ use Pm\Menu\Models\Menu;
                         </a>
                             <ul class="nav-sub navbar-nav">
                                 {% for rc in smenu %}
-                                {% if rc.m == record.title %}
-                                <li class="nav-item py-1">
-                                    <a class="nav-link header-title text-dark" href='/{{record.url}}/{{ rc.surl }}'>
-                                        {{ rc.s }}
-                                    </a>
-                                </li>
-                                {% endif %}
+                                    {% if rc.m == record.title %}
+                                    <li class="nav-item py-1">
+                                        <a class="nav-link header-title text-dark" href='/{{record.url}}/{{ rc.surl }}'>
+                                            {{ rc.s }}
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                 {% endfor %}
-<<<<<<< HEAD
+
                                 {% if record.title == 'login' %}
                                 {% if user %}
                                 <li class="nav-item py-1">
-                                    <a class="btn outline" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
+                                    <a class="btn outline" data-request="onLogout" data-request-data="redirect: '/'">Sign out </a>
                                 </li>
                                 {% if user.type_user == 'seller' %}
                                 <li class="nav-item py-1">
@@ -71,8 +80,7 @@ use Pm\Menu\Models\Menu;
                                 {% endif %}      
                                 {% endif %} 
                                 {% endif %}
-=======
->>>>>>> 5ed49c601449f750e539c23d951e2c033278befb
+
                             </ul>    
                     </li>
                         {% else %}
@@ -94,6 +102,9 @@ use Pm\Menu\Models\Menu;
                                 Hello {{ user.name }}
                             {% elseif record.title == 'cart' %}
                                 <i class="fa fa-shopping-cart"></i> {{ record.title }}
+                                {% if total > 0 %}
+                                <span class="text-danger">({{total}})</span>
+                                {% endif %}
                             {% else %}
                                 {{ record.title }}
                             {% endif  %}
@@ -103,6 +114,11 @@ use Pm\Menu\Models\Menu;
 
                         <ul class="nav-sub navbar-nav mx-auto">
                             {% if record.title == 'login' and user %}
+                                 {% if user.type_user == 'seller' %}
+                                    <li class="nav-item py-1">
+                                        <a class="nav-link header-title text-dark h-100 pt-3" href="/seller">Kênh bán hàng</a>
+                                    </li>
+                                {% endif %}
                                 <li class="nav-item py-1">
                                     <a class="nav-link header-title text-dark h-100 pt-3" data-request="onLogout" data-request-data="redirect: '/'">Sign out</a>
                                 </li>

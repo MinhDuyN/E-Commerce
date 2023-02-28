@@ -21,7 +21,7 @@ pageNumber = "{{ :page }}"
 	use Pm\Product\Models\Product;
 
 	function onStart(){
-		$this['productNew']= Product::query()->take(2)->orderBy('created_at', 'desc')->get();
+		$this['productNew']= Product::query()->where('active',1)->take(2)->orderBy('created_at', 'desc')->get();
 	}
 
     function onDetailscategory(){

@@ -32,7 +32,7 @@ class Product extends Model
         return number_format($this->price/23575,2,'.',',');
     }
     
-
+    
 
 
     public $attachOne = [

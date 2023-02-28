@@ -5,6 +5,7 @@ is_hidden = 0
 ==
 <?php
 
+
 	public function onStart(){
 
 
@@ -68,7 +69,9 @@ is_hidden = 0
     	Cookie::queue($cartid,null, -1);
     }
 
-
+    public function onCheckout(){
+    	 return Redirect::to('checkout')->with('message',Input::get('id'));
+    }
 ?>
 
 
@@ -149,7 +152,7 @@ is_hidden = 0
 			Tổng thanh toán ( 0 sản phẩm): 0đ
 		</div>
 		<div>
-			<button class="btn btn-primary">Mua Hàng</button>
+			<a id="check-cart-data" class="btn btn-primary">Mua Hàng</a>
 		</div>
 	</div>
 </div>
@@ -254,8 +257,31 @@ is_hidden = 0
 
 
 
-	function dom_bottom(){
+	$('#check-cart-data').on('click',function(){
 		var arr=$('input[name="check"]:checked');
+		const arr2=[];
+		for(var i=0;i<arr.length;i++){
+			arr2.push(arr[i].parentElement.parentElement.parentElement.children[1].children[1].children[0].getAttribute('id').replace(/ /g,''));
+		}
+		
+
+		$.request(
+        'onCheckout',
+        {
+            data: {
+            	id: arr2
+            },
+            
+        })
+			
+		
+	})
+
+	function dom_bottom(){
+
+		
+		var arr=$('input[name="check"]:checked');
+		
 		var arr2=$('input[name="check"]');
 		var tong=0,number=0;
 		for (var i =0; i <arr.length; i++) {
