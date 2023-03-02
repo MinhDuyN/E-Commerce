@@ -12,7 +12,8 @@ class Plugin extends PluginBase
             'pm\seller\components\addshop' => 'addshop',
             'pm\seller\components\profileshop' => 'profileshop',
             'pm\seller\components\slidershop' => 'slidershop',
-            'pm\seller\components\productshop' => 'productshop'
+            'pm\seller\components\productshop' => 'productshop',
+            'pm\seller\components\ordershop' => 'ordershop'
         ];
     }
 
