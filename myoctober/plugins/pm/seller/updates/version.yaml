@@ -9,3 +9,6 @@
 1.0.4:
     - 'Created table pm_seller_shopslider'
     - builder_table_create_pm_seller_shopslider.php
+1.0.5:
+    - 'Updated table pm_seller_shop'
+    - builder_table_update_pm_seller_shop_2.php
