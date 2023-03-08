@@ -9,9 +9,12 @@ security = "all"
 use Pm\Product\Models\Checkout;
 use Pm\Product\Models\CheckoutDetails;
 public function onStart(){
-  $arr=Session::get('message');
 
-  if($arr==null){
+  $arr=Session::get('message');
+  $this['arr']=json_encode($arr);
+
+
+  if($arr==null || Cookie::get($arr[0])==null){
     return Redirect::back();
   }
   
@@ -25,6 +28,7 @@ public function onStart(){
       array_push($arrcart,json_decode($cart));
     }
 
+
     $this['arrcart']=$arrcart;
     $tong=0;
     foreach($arrcart as $value){
@@ -37,13 +41,14 @@ public function onStart(){
     array_push($arrcart,json_decode($cart));
 
     $this['arrcart']=$arrcart;
+    
     $tong=0;
     foreach($arrcart as $value){
       $tong+=$value->total;
     }
     $this['tong']=$tong;
   }
- 
+  
   
 }
 
@@ -347,9 +352,11 @@ public function onCreateCheckout(){
           });
         });
 
-          
+         
         </script>
         <script>
+    
+        
           const paypalButtonsComponent = paypal.Buttons({
               // optional styling for buttons
               // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
@@ -361,29 +368,84 @@ public function onCreateCheckout(){
 
               // set up the transaction
               createOrder: (data, actions) => {
-                  // pass in any options from the v2 orders create call:
-                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-                  const createOrderPayload = {
-                      purchase_units: [
-                          {
-                              amount: {
-                                  value: "{{tong}}"
-                              }
-                          }
-                      ]
-                  };
+                  
+                var arr={
+                  arr: "{{arr}}",
+                }
 
-                  return actions.order.create(createOrderPayload);
+                  return fetch('api/order', {
+                      method: 'post',
+                      headers:{
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(arr)
+                  }).then(function(res) {
+                      return res.json();
+                  }).then(function(orderData) {
+                      return orderData.id;
+                  });
               },
 
               // finalize the transaction
               onApprove: (data, actions) => {
-                  const captureOrderHandler = (details) => {
-                      const payerName = details.payer.name.given_name;
-                      console.log('Transaction completed');
-                  };
+                  var arr={
+                      arr: "{{arr}}",
+                      name: $('input[name="name"]').val(),
+                      email: $('input[name="email"]').val(),
+                      address: $('input[name="address"]').val(),
+                      tel: $('input[name="tel"]').val(),
+                      phone: $('input[name="phone"]').val(),
+                  }
 
-                  return actions.order.capture().then(captureOrderHandler);
+
+                  return fetch('api/order/' + data.orderID, {
+                    method: 'post',
+                    headers:{
+                        'Content-Type': 'application/json'
+                      },
+                    body: JSON.stringify(arr)
+                }).then(function(res) {
+                    return res.json();
+                }).then(function(orderData) {
+                    // Three cases to handle:
+                    //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                    //   (2) Other non-recoverable errors -> Show a failure message
+                    //   (3) Successful transaction -> Show confirmation or thank you
+
+                    // This example reads a v2/checkout/orders capture response, propagated from the server
+                    // You could use a different API or structure for your 'orderData'
+                    var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                    if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                        return actions.restart(); // Recoverable state, per:
+                        // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                    }
+
+                    if (errorDetail) {
+                        var msg = 'Sorry, your transaction could not be processed.';
+                        if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                        if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                        return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+                    }
+
+                    // Successful capture! For demo purposes:
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    const toastTrigger = document.getElementById('liveToastBtn')
+                    const toastLiveExample = document.getElementById('liveToast')
+                    if(toastTrigger){
+                      const toast = new bootstrap.Toast(toastLiveExample)
+                      toast.show();
+                    }
+                    
+                    //var transaction = orderData.purchase_units[0].payments.captures[0];
+                    //alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                    // Replace the above to show a success message within this page, e.g.
+                    // const element = document.getElementById('paypal-button-container');
+                    // element.innerHTML = '';
+                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    // Or go to another URL:  actions.redirect('thank_you.html');
+                });
               },
 
               // handle unrecoverable errors

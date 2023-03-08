@@ -249,3 +249,143 @@
   top:  10px;
   cursor: pointer;
 }
+.product-rate-main{
+  display: grid;
+  grid-template-columns: 75% 24%;
+  column-gap: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.product-rate{
+ 
+  background: #FAFBFB;
+  border-radius: 14px;
+}
+.product-like{
+  
+  background: #FAFBFB;
+  border-radius: 14px;
+}
+.product-rate > div > h4{
+  font-weight: normal;
+}
+
+.rating{
+  margin-bottom: 0.6em;
+}
+.review > blockquote{
+  margin-bottom: 0;
+  word-wrap: break-word;
+  border-left: 4px solid gainsboro;
+  padding: 1em;
+  color: #67767A;
+  font: 16px/1.5 tahoma, arial, 'Hiragino Sans GB', '\5b8b\4f53', sans-serif;
+}
+.review > header > h5{
+  font-weight: normal;
+}
+.review > footer > cite{
+  position: relative;
+  width: 100%;
+  float: right;
+  border-bottom: 1px solid gainsboro;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  padding: 1em;
+}
+.review > footer > cite > span{
+  top: 0;
+  position: absolute;
+  right: 0;
+  font-weight: bold;
+  color: #67767A;
+}
+.paginate nav{
+  float: right;
+}
+.pagination li{
+  padding: 0 0.5em 0 0.5em;
+  margin-right: 0.5em;
+  
+}
+.pagination li a{
+  color: black;
+  text-decoration: none;
+}
+.pagination li a:hover{
+  color: red;
+}
+.active{
+  background: red;
+  color: white;
+}
+.pagination li:first-child{
+  border: 1px solid gainsboro;
+  color: gainsboro;
+}
+.pagination li:first-child:hover{
+  color: black;
+}
+.pagination li:last-child{
+  border: 1px solid gainsboro;
+}
+.pagination li:last-child:hover{
+  color: black;
+}
+.fa-star{
+  color: #FFDF00;
+}
+.fa-times{
+  color: white;
+  cursor: pointer;
+}
+.progress{
+  width: 83%;
+}
+#write-feedback{
+  cursor: pointer;
+}
+.form-feedback{
+  z-index: 1000;
+  position: fixed; 
+ 
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: red;
+  width: 350px;
+  height: 530px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+.form-feedback > header{
+  background: #3066BE;
+  height: 150px;
+  width: 100%;
+}
+.hidden{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+.form-feedback > content > form > div > input{
+  padding: 0.5em;
+  width: 100%;
+  background: gainsboro;
+  border: none;
+}
+.form-feedback > content > form > div > input:focus{
+  outline-color: gray;
+}
+.form-feedback > content > form > div > textarea:focus{
+  outline-color: gray;
+}
+.form-feedback > content > form > div > textarea{
+  background: gainsboro;
+  border: none;
+}
+.form-feedback > content > form > button{
+  width: 100%;
+}

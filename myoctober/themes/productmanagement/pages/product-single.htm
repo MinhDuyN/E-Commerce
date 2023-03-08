@@ -10,13 +10,14 @@ modelKeyColumn = "slug"
 displayColumn = "name"
 notFoundMessage = "Record not found"
 
+[reviews]
+categoryFilter = "{{ :slug }}"
+
+[session]
+security = "all"
 ==
 <?php
-
-
-
-
-    public function onStart(){
+public function onStart(){
 
 
     if(Cookie::get('user_auth')){
@@ -26,9 +27,72 @@ notFoundMessage = "Record not found"
     }else{
         Cookie::queue('sum_product',count(Cookie::get())-2, time()+86400);
     }
-        
-       
-       
+    
+    $slug=$this->controller->vars['this']['param']['slug'];
+
+    $rate=DB::table('vojtasvoboda_reviews_reviews')
+    ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+    ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+    ->where('slug',$slug)
+    ->sum('rating');
+
+    if($rate){
+        $this['rating']=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->count();
+
+
+        $this['rate']=number_format($rate/$this['rating'],1,',','.');
+        $this['rateceil']=number_format(ceil($rate/$this['rating']),1,',','.');
+
+        $rate1=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->where('rating',1)->count();
+
+        $rate2=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->where('rating',2)->count();
+
+        $rate3=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->where('rating',3)->count();
+
+        $rate4=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->where('rating',4)->count();
+
+        $rate5=DB::table('vojtasvoboda_reviews_reviews')
+        ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
+        ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
+        ->where('slug',$slug)
+        ->where('rating',5)->count();
+
+        $this['rate1']=number_format($rate1/ $this['rating']*100,1,'.',',');
+        $this['rate2']=number_format($rate2/ $this['rating']*100,1,'.',',');
+        $this['rate3']=number_format($rate3/ $this['rating']*100,1,'.',',');
+        $this['rate4']=number_format($rate4/ $this['rating']*100,1,'.',',');
+        $this['rate5']=number_format($rate5/ $this['rating']*100,1,'.',',');
+    }else{
+        $this['rating']=0;
+        $this['rate1']=0;
+        $this['rate2']=0;
+        $this['rate3']=0;
+        $this['rate4']=0;
+        $this['rate5']=0;
+        $this['rate']=0;
+    }
+
+    
     }
 
     public function onSave(){
@@ -91,14 +155,48 @@ notFoundMessage = "Record not found"
         return Redirect::to('checkout');
 
     }
+
+    use Vojtasvoboda\Reviews\Models\Review;
+
+    public function onFeedback(){
+        $category=DB::table('vojtasvoboda_reviews_categories')->where('slug',Input::get('slug'))->first()->id;
+        
+        if(Input::get('title')){
+            $approved=true;
+        }else{
+            $approved=false;
+        }
+
+
+
+        $ob = new Review();
+        $ob->email=Input::get('email');
+        $ob->name=Input::get('name');
+        $ob->title=Input::get('title');
+        $ob->rating=(int)Input::get('Review')['rating'];
+        $ob->content=Input::get('content');
+        $ob->approved=$approved;
+        $ob->save();
+
+     
+
+        DB::table('vojtasvoboda_reviews_review_category')->insertGetId([
+            'review_id'=>$ob->id,
+            'category_id'=>(int)$category
+        ]);
+
+
+    }
 ?>
 ==
 {% set record = builderDetails.record %}
 {% set displayColumn = builderDetails.displayColumn %}
+{% set slug = builderDetails.identifierValue %}
 {% set notFoundMessage = builderDetails.notFoundMessage %}
 
 {% put styles %}
     <link href="{{ 'assets/css/productcard.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/jquery.rateyo.min.css'|theme }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endput %}
 
@@ -202,11 +300,171 @@ notFoundMessage = "Record not found"
     </div>
 </div>
 
+<div class="product-rate-main">
+    <div class="product-rate d-flex flex-column">
+        <div class="p-3">
+            <h4>Đánh giá sản phẩm</h4>
+        </div>
+        <div class="px-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row">
+               <h5 class="pr-1">{{rate}} </h5> 
+               <p>of 5 star</p>
+            </div>
+            <div class="d-flex flex-column">
+                <div>
+                    {% for i in 1..5 %}
+                        {% if i <= rateceil %}
+                            <i class="fa fa-star" aria-hidden="true"></i> 
+                        {% else %}
+                            <i class="fa fa-star-o" aria-hidden="true"></i> 
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div>
+                    <i class="text-muted">{{rating}} rating</i>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-row px-3 mt-3 w-100 align-items-center">
+            <div class="mr-3">
+                5 <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+           
+            <div class="progress mr-3">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{rate5}}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+         
+            <div>
+                {{rate5}} %
+            </div>
+        </div>
+        <div class="d-flex flex-row px-3 mt-2 w-100 align-items-center">
+            <div class="mr-3">
+                4 <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+           
+            <div class="progress mr-3">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{rate4}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+         
+            <div>
+                {{rate4}} %
+            </div>
+        </div>
+        <div class="d-flex flex-row px-3 mt-2 w-100 align-items-center">
+            <div class="mr-3">
+                3 <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+           
+            <div class="progress mr-3">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{rate3}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+         
+            <div>
+                {{rate3}} %
+            </div>
+        </div>
+        <div class="d-flex flex-row px-3 mt-2 w-100 align-items-center">
+            <div class="mr-3">
+                2 <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+           
+            <div class="progress mr-3">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{rate2}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+         
+            <div>
+                {{rate2}} %
+            </div>
+        </div>
+        <div class="d-flex flex-row px-3 mt-2 w-100 align-items-center">
+            <div class="mr-3">
+                1 <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+           
+            <div class="progress mr-3">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{rate1}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+         
+            <div>
+                {{rate1}} %
+            </div>
+        </div>
+            
+        <span id="dom-feedback">
+            {% partial 'components/reviews' %}
+        </span>
+        
+        
+    </div>
+
+    <div class="product-like">
+        
+    </div>
+</div>
+
+<div class="form-feedback hidden">
+    <header class="d-flex flex-column p-3">
+        <div class="text-right">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div>
+            <h5 class="text-light">Send us your feedback!</h5>
+            <div class="text-light">
+                Do you have a suggestion for this product? let us know in the field below
+            </div>
+        </div>
+    </header>
+
+    <content class="d-flex flex-column">
+        <form class="p-4" data-request="onFeedback" data-request-success="feedback()" data-request-update="'components/reviews': '#dom-feedback'">
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">How was your experience?</label>
+                <div class="rateyo" data-readonly="false" data-input-id="StarRating-formRating-input-rating"></div>
+                <input type="hidden" id="StarRating-formRating-input-rating" name="Review[rating]" value="4">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Your title</label><br>
+                <input type="text" name="title" width="150">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Your feedback</label><br>
+                <textarea rows="3" cols="38" name="content">
+                    
+                </textarea>
+            </div>
+            <input type="hidden" name="name" value="{{user.name}}">
+            <input type="hidden" name="email" value="{{user.email}}">
+            <input type="hidden" name="slug" value="{{slug}}">
+            <button type="submit" class="btn btn-primary" data-attach-loading>Send feedback</button>
+        </form>
+    </content>
+</div>
+
+
 {% put scripts %}
+    <script src="{{ 'assets/js/jquery.rateyo.min.js'|theme }}"></script>
+    <script src="{{ 'assets/js/starrating.js'|theme }}"></script>
     <script src="{{ 'assets/js/productcard.js'|theme }}"></script>
     <script src="{{ 'assets/js/bootstrap-input-spinner.js'|theme }}"></script>
     <script>
         
+        function feedback(){
+            $('.form-feedback').toggleClass('hidden');
+        }
+
+        $('#write-feedback').on('click',function(){
+            $('.form-feedback').toggleClass('hidden');
+        })
+        $('.fa-times').on('click',function(){
+            $('.form-feedback').toggleClass('hidden');
+        })
+
+
+
         $("input[type='number']").inputSpinner()
 
         $(".color").on('click',function(){

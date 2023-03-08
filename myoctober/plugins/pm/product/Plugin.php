@@ -7,7 +7,9 @@ class Plugin extends PluginBase
 {
     public function registerComponents()
     {
-        
+        return [
+            'Pm\Product\Components\Loadmore' => 'Loadmore'
+        ];
     }
 
     public function registerFormWidgets(){

@@ -1,4 +1,4 @@
-title = "home"
+title = "home/:page?"
 url = "/"
 layout = "default"
 is_hidden = 0
@@ -12,11 +12,12 @@ noRecordsMessage = "No records found"
 detailsPage = "-"
 detailsUrlParameter = "id"
 pageNumber = "{{ :page }}"
+
+[Loadmore]
+pageNumber = "{{ :page }}"
 ==
-
-
-<?
-    use Pm\Product\Models\Categorydetails;
+<?php
+use Pm\Product\Models\Categorydetails;
 	use Pm\Product\Models\CategoryTag;
 	use Pm\Product\Models\Product;
 
@@ -53,8 +54,6 @@ pageNumber = "{{ :page }}"
         
     }
 ?>
-
-
 ==
 {% set records = builderList.records %}
 {% set displayColumn = builderList.displayColumn %}
@@ -176,11 +175,13 @@ pageNumber = "{{ :page }}"
 	</div>
 </div>
 
-<div class="view-home w-100 h-100 view-home-product">
-	{% partial 'components/ListProduct' %}
-</div>
-<div class="text-center">
-	load more
+
+<div id="list" class="view-home w-100 h-100 view-home-product">
+	{% partial '@_list' %}
+</div>	
+
+<div id="load-more-button" class="loadmore">
+    <a data-request="onLoadMore" data-request-data="page: 1" href="#">load more</a>
 </div>
 {% put scripts %}
 	<script src="{{ 'assets/js/home.js'|theme }}"></script>

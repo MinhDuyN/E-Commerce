@@ -32,6 +32,15 @@ class Product extends Model
         return number_format($this->price/23575,2,'.',',');
     }
     
+    public function scopeListFrontEnd($query, $options = []) 
+    {
+        extract(array_merge([
+            'page'    => 1,
+            'perPage' => 10,
+        ], $options));
+
+        return $query->paginate($perPage, $page);
+    }
     
 
 
