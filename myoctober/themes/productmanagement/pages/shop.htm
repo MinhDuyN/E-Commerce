@@ -72,8 +72,8 @@ public function onSend(){
 <link href="{{ 'assets/css/productcard.css'|theme }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{{ 'assets/css/home.css'|theme }}" rel="stylesheet">
-    <link href="{{ 'assets/css/product.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/css/home.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/css/product.css'|theme }}" rel="stylesheet">
 {% endput %}
 
 
@@ -167,7 +167,9 @@ public function onSend(){
 
     </div>
 </div>
-<div>
+<h4 center><strong>DANH SÁCH SẢN PHẨM</strong></h4>
+<div class="view-home-product">
+
     {% set records = builderList2.records %}
     {% set displayColumn = builderList2.displayColumn %}
     {% set noRecordsMessage = builderList2.noRecordsMessage %}
@@ -175,40 +177,37 @@ public function onSend(){
     {% set detailsKeyColumn = builderList2.detailsKeyColumn %}
     {% set detailsUrlParameter = builderList2.detailsUrlParameter %}
 
-    <ul>
-        <h4>DANH SÁCH SẢN PHẨM</h4>
-        <div class="view-home w-100 h-100 view-home-product">
-            
-            {% for record in records %}
-            {% if record.active == 1 and record.seller_shop_id == number %}
-            <a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}"
-                class="card-item">
-                <div class="card-image">
-                    <img src="{{record.image.path}}" width="215px" height="230px">
-                </div>
-                <div class="card-title text-muted">
-                    {{ html_limit(record.name,25)|raw }}...
-                </div>
-                <div class="card-price">
-                    {{ record.make_price }}$ &nbsp;
-                    <span class="text-muted">
-                        {% if record.sold > 0 %}
-                        {{record.sold}} đã bán!
-                        {% endif %}
-                    </span>
-                </div>
-            </a>
-            {% endif %}
-            {% else %}
-            <li class="no-data">{{ noRecordsMessage }}</li>
-            {% endfor %}
+
+    {% for record in records %}
+    {% if record.active == 1 and record.seller_shop_id == number %}
+    <a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}" class="card-item">
+        <div class="card-image">
+            <img src="{{record.image.path}}" width="215px" height="230px">
         </div>
-    </ul>
+        <div class="card-title text-muted">
+            {{ html_limit(record.name,25)|raw }}...
+        </div>
+        <div class="card-price">
+            {{ record.make_price }}$ &nbsp;
+            <span class="text-muted">
+                {% if record.sold > 0 %}
+                {{record.sold}} đã bán!
+                {% endif %}
+            </span>
+        </div>
+    </a>
+    {% endif %}
+    {% else %}
+    <li class="no-data">{{ noRecordsMessage }}</li>
+    {% endfor %}
+
+
 
     {% if records.lastPage > 1 %}
     <ul class="pagination">
         {% if records.currentPage > 1 %}
-        <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage-1) }) }}">&larr; Prev</a></li>
+        <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage-1) }) }}">&larr; Prev</a>
+        </li>
         {% endif %}
 
         {% for page in 1..records.lastPage %}
@@ -218,8 +217,10 @@ public function onSend(){
         {% endfor %}
 
         {% if records.lastPage > records.currentPage %}
-        <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage+1) }) }}">Next &rarr;</a></li>
+        <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage+1) }) }}">Next &rarr;</a>
+        </li>
         {% endif %}
     </ul>
     {% endif %}
+
 </div>

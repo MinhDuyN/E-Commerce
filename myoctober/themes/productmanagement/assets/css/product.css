@@ -17,6 +17,7 @@
 	height: 324px;
 	margin-bottom: 15px;
 	color: black;
+	transition: 0.2s;
 }
 .card-image{
 	margin: 3px auto;
@@ -38,7 +39,7 @@
 	-moz-transform: translateY(-10px);
 	-ms-transform: translateY(-10px);
 	-o-transform: translateY(-10px);
-	transform: translateY(-10px);
+	transform: translateY(-5px);
 	text-decoration: none;
 	color: black;
 
