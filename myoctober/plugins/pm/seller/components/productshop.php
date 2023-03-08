@@ -5,6 +5,7 @@ use Cms\Classes\ComponentBase;
 use Pm\Product\Models\Product;
 use Pm\Product\Models\CategoryDetails;
 use Pm\Product\Models\ProductOption;
+use Vojtasvoboda\Reviews\Models\Category;
 use session;
 use Input;
 
@@ -50,6 +51,11 @@ class productshop extends ComponentBase
         $b->quantity = Input::get('quantity');
         $b->product_name_id = $a->id;
         $b->save();
+
+        $c=new Category();
+        $c->name=Input::get('name');
+        $c->slug = Input::get('name');
+        $c->save();
         return redirect('/seller/product');
     }
 

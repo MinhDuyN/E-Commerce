@@ -522,8 +522,9 @@ public function onStart(){
 
 
         $(document).ready(function() {
-            console.log($('.color').text())
-            if($('.color').text()==""){
+
+            console.log($('.color').text().trim())
+            if($('.color').text().trim()==""){
                 $('.title-color').remove();
                 $('.title-size').remove();
                 $('.table-size').remove();

@@ -45,8 +45,7 @@
         {% for value in color %}
             <span class="color mr-3 pt-2 pb-2 pl-4 pr-4"> {{value.color}} </span>
         {% endfor %}
-    {% else %}
-        <span class="color mr-3 pt-2 pb-2 pl-4 pr-4"> &nbsp; </span>
+   
     {% endif %}
     </div>
     <div class="d-flex flex-row op-color">
@@ -54,8 +53,7 @@
         {% for value in size %}
             <span class="size mr-3 pt-2 pb-2 pl-4 pr-4"> {{value.size}} </span>
         {% endfor %}
-    {% else %}
-        <span class="size mr-3 pt-2 pb-2 pl-4 pr-4"> &nbsp; </span>
+
     {% endif %}
     </div>
     <input type="hidden" name="quantity" value="{{quantity[0].quantity}}">

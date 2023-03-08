@@ -39,7 +39,7 @@ class Product extends Model
             'perPage' => 10,
         ], $options));
 
-        return $query->paginate($perPage, $page);
+        return $query->where('active',1)->paginate($perPage, $page);
     }
     
 
