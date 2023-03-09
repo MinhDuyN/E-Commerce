@@ -38,4 +38,12 @@ class Category extends Model
      */
     public $rules = [
     ];
+
+    public $attachOne = [
+        'image' => 'System\Models\File'
+    ];
+
+    public $attachMany = [
+        'gallery' => 'System\Models\File'
+    ];
 }
