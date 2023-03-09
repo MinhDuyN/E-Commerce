@@ -4,10 +4,11 @@ layout = "cart"
 is_hidden = 0
 ==
 <?php
-
+	use Pm\Product\Models\Product;
 
 	public function onStart(){
 
+		
 
 		if (Session::has('message')) {
 		    Session::flush('message');
@@ -15,11 +16,13 @@ is_hidden = 0
 
 
         $a = Cookie::get();
-    
+    	
+
 
         $arr=[];
         $arrcart=[];
        foreach($a as $key => $value){
+
         $arr[$key]=$value;
        }
        $arr=array_values($arr);
@@ -30,6 +33,10 @@ is_hidden = 0
 
        	array_push($arrcart,json_decode($value));
        }
+
+
+       
+       $this['item']=Product::query()->where('seller_shop_id',1)->get();
 
        $this['cart']=$arrcart;
 
@@ -164,6 +171,30 @@ is_hidden = 0
 	</div>
 </div>
 
+<div class="cart-view-product p-4">
+	<h5>Có thể bạn sẽ thích</h5>
+	<div class="list-cart">
+	{% for record in item %}
+		{% if record.active == 1 %}
+		<div>
+			<a href="../products/{{record.slug}}" class="card-item">
+				<div class="card-image">
+					<img src="{{record.image.path}}" width="215px" height="230px">
+				</div>
+				<div class="card-title text-muted">
+					{{ html_limit(record.name)|raw }}...
+				</div>
+				<div class="card-price">
+					<h5 class="text-danger">{{ record.make_price }}$ </h5>&nbsp;<span class="text-muted"> 210 đã mua!</span>
+				</div>
+			</a>
+		</div>
+		
+		{% endif %}
+
+	{% endfor %}
+	</div>
+</div>
 
 
 {% put scripts %}
@@ -173,6 +204,7 @@ is_hidden = 0
     <script>
     	$('.spin').hide();
         $("input[type='number']").inputSpinner()
+        $('.rax-banned').remove();
 
         $('.number-spinner').on('change',function(event){
 

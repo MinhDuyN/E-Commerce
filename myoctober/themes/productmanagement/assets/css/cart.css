@@ -75,3 +75,19 @@
   animation: all 0.5s;
   margin-bottom: 0 !important;
 }
+
+.cart-view-product{
+  background: white;
+}
+.list-cart{
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  text-align: center;
+}
+.list-cart div{
+  margin: 0.5em;
+}
+.list-cart div a:hover{
+  text-decoration: none;
+}

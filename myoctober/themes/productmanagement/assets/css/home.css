@@ -171,3 +171,63 @@
 .category-tag a:hover{
 	text-decoration: none;
 }
+
+.rax-view{
+	position: fixed;
+	z-index: 1000;
+	right: 70px;
+	top: 200px;
+	background: #FAFBFB;
+  	border-radius: 14px;
+}
+.rax-view > img{
+	position: absolute;
+	z-index: -1;
+	transform: translate(4px,-30px);
+	width: 50px;
+}
+.rax-view > div > a{
+	padding: 1.5em;
+	color: black;
+
+}
+.rax-view > div > a:first-child{
+	background: linear-gradient(120deg,#ff9000,#ff5000);
+	border-radius: 14px 14px 0 0;
+	color: white;
+}
+.rax-view > div > a:hover{
+	text-decoration: none;
+	color: black;
+	background: linear-gradient(120deg,#ff9000,#ff5000);
+}
+.rax-view > div > a:last-child{
+	border-radius: 0 0 14px 14px;
+}
+.rax-banned{
+	background: #FF5000;
+	height: 80px;
+}
+.rax-banned > img{
+	object-fit: cover;
+	object-position: 5px -206px;
+}
+
+.view-home-rax-banned{
+	width: 100%;
+	margin-left: -15px;
+}
+.view-home-rax-banned > img{
+	border-radius: 14px;
+	object-fit: cover;
+	object-position: 10px -300px;
+}
+.product-title{
+	color: white;
+	margin-left: -15px;
+	padding: 0.5em;
+	background: linear-gradient(120deg,#ff9000,#ff5000);
+  	border-radius: 50px 14px 0 0;
+	width: 260px;
+	transform: translateY(20px);
+}

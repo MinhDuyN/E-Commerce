@@ -132,3 +132,6 @@
 1.0.45:
     - 'Updated table pm_product_checkout_details'
     - builder_table_update_pm_product_checkout_details.php
+1.0.46:
+    - 'Updated table pm_product_option'
+    - builder_table_update_pm_product_option_3.php

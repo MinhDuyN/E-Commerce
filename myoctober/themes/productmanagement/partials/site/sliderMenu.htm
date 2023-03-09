@@ -8,6 +8,7 @@ detailsPage = "-"
 detailsUrlParameter = "id"
 pageNumber = "{{ :page }}"
 ==
+
 {% set records = builderList.records %}
 {% set displayColumn = builderList.displayColumn %}
 {% set noRecordsMessage = builderList.noRecordsMessage %}
@@ -21,8 +22,8 @@ pageNumber = "{{ :page }}"
 	<div class="header-right h-100 d-flex justify-content-center align-items-center flex-column">
 
 		<div class="header-search w-100">
-			<form class="d-flex position-relative" role="search">
-		      <input class="w-100 input-search" type="search" placeholder="Áo khoác nam" aria-label="Search">
+			<form class="d-flex position-relative" data-request="onSearch" data-request-update="'@_list': '#list'" role="search">
+		      <input class="w-100 input-search" name="q" type="search" placeholder="Áo khoác nam" aria-label="Search">
 		      <button class="btn-search" type="submit">Search</button>
 		    </form>
 		</div>

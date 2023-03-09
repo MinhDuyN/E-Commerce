@@ -257,15 +257,28 @@
   margin-bottom: 1em;
 }
 .product-rate{
- 
   background: #FAFBFB;
   border-radius: 14px;
 }
 .product-like{
-  
+  display: grid;
+  grid-template-columns: auto;
+  row-gap: 1em;
+  align-content: start;
+  text-align: center;
+}
+.product-like > div{
   background: #FAFBFB;
   border-radius: 14px;
+  padding: 1em;
+
 }
+.product-like > div > a{
+  text-decoration: none;
+}
+
+
+
 .product-rate > div > h4{
   font-weight: normal;
 }
@@ -388,4 +401,39 @@
 }
 .form-feedback > content > form > button{
   width: 100%;
+}
+
+.image-shop > img{
+  border-radius: 100%;
+}
+.image-shop::after{
+  position: absolute;
+  content: 'yêu thích';
+  background: #EE4D2D;
+  padding: 5px;
+  color: white;
+  border-radius: 9px;
+  transform: translate(-75px,60px);
+  font: 14px/1.5 tahoma, arial, 'Hiragino Sans GB', '\5b8b\4f53', sans-serif;
+}
+.title-shop{
+  text-align: left;
+}
+.shop-view > div:first-child{
+  width: 80%;
+  border-right: 1px solid gainsboro;
+}
+.description-product{
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid white;
+  border-radius: 14px;
+  background: #FFFFFF;
+    
+}
+.description-product > h4{
+  font-weight: normal;
+  background: #FAFAFA;
+  padding: 0.4em;
 }

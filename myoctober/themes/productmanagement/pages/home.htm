@@ -23,6 +23,16 @@ use Pm\Product\Models\Categorydetails;
 
 	function onStart(){
 		$this['productNew']= Product::query()->where('active',1)->take(2)->orderBy('created_at', 'desc')->get();
+
+		$this['fashion']= Product::query()
+		->join('pm_product_category_details','pm_product_.product_category_details_id','=','pm_product_category_details.id')
+		->orWhere('pm_product_category_details.name','like','%'.'nữ'.'%')
+		->orWhere('pm_product_category_details.name','like','%'.'nam'.'%')
+		->where('active',1)
+		->orderBy('created_at', 'desc')->get();
+
+
+		$this['pd']= Product::query()->where('active',1)->offset(2)->take(5)->orderBy('created_at', 'desc')->get();
 	}
 
     function onDetailscategory(){
@@ -53,6 +63,11 @@ use Pm\Product\Models\Categorydetails;
 
         
     }
+
+    public function onSearch(){
+		$this['ob']= Product::query()->where('name','like','%'.Input::get('q').'%')->get();
+		
+	}
 ?>
 ==
 {% set records = builderList.records %}
@@ -66,6 +81,8 @@ use Pm\Product\Models\Categorydetails;
     <link href="{{ 'assets/css/home.css'|theme }}" rel="stylesheet">
     <link href="{{ 'assets/css/product.css'|theme }}" rel="stylesheet">
 {% endput %}
+
+
 
 <div class="view-home row w-100 h-100">
 	<div class="view-home-1 col-sm-8 p-0 d-flex flex-row h-100 position-relative">
@@ -127,10 +144,10 @@ use Pm\Product\Models\Categorydetails;
 					</div>
 					<div class="grid-content row h-100 p-1 px-3">
 						<div class="col grid-image p-0 m-0 mr-2">
-							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwgMtQNg5OnZ-U5ee1d_2ZFSHJ-hxKbDTlwnkxmUx&s" alt="">
+							<img src="{{fashion[0].image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0">
-							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+							<img src="{{fashion[0].image.path}}" alt="">
 						</div>
 					</div>
 				</div>
@@ -144,19 +161,19 @@ use Pm\Product\Models\Categorydetails;
 					</div>
 					<div class="grid-content row h-100 p-1 px-3">
 						<div class="col grid-image p-0 m-0 mr-2 h-100">
-							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwgMtQNg5OnZ-U5ee1d_2ZFSHJ-hxKbDTlwnkxmUx&s" alt="">
+							<img src="{{pd[0].image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0 mr-2 h-100">
-							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+							<img src="{{pd[1].image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0 mr-2 h-100">
-							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+							<img src="{{pd[2].image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0 mr-2 h-100">
-							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+							<img src="{{pd[3].image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0 mr-2 h-100">
-							<img src="https://cdn.pixabay.com/photo/2022/07/26/02/06/tea-plantation-7344892_960_720.jpg" alt="">
+							<img src="{{pd[4].image.path}}" alt="">
 						</div>
 					</div>
 				</div>
@@ -175,7 +192,10 @@ use Pm\Product\Models\Categorydetails;
 	</div>
 </div>
 
-
+<div class="view-home-rax-banned">
+    <img src="https://media.istockphoto.com/id/1186197177/vector/thanksgiving-sale-banner-website-header-or-newsletter-cover-red-and-orange-fall-leaves.jpg?s=170667a&w=0&k=20&c=1bqrVE_pBrGifnK5yRPth4KCHeSao9S1cCuptV1C0iI=" height="70px" width="100%">
+</div>
+<h4 class="product-title">Danh mục sản phẩm</h4>
 <div id="list" class="view-home w-100 h-100 view-home-product">
 	{% partial '@_list' %}
 </div>	
@@ -183,6 +203,17 @@ use Pm\Product\Models\Categorydetails;
 <div id="load-more-button" class="loadmore">
     <a data-request="onLoadMore" data-request-data="page: 1" href="#">load more</a>
 </div>
+
+<div class="rax-view">
+	<img class="rax-image elevator-image" autowebp="false" data-once="true" src="//gw.alicdn.com/imgextra/i4/O1CN015N8fhK1ZmakOXoCdV_!!6000000003237-2-tps-72-74.png">
+	<div class="d-flex flex-column">
+		<a href="#top">^</a>
+		<a href="#">...</a>
+		<a href="#bottom">v</a>
+	</div>
+</div>
+
+
 {% put scripts %}
 	<script src="{{ 'assets/js/home.js'|theme }}"></script>
 {% endput %}

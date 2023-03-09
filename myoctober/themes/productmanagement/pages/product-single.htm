@@ -17,6 +17,10 @@ categoryFilter = "{{ :slug }}"
 security = "all"
 ==
 <?php
+
+use Pm\Product\Models\Product;
+use Pm\Seller\Models\Shop;
+
 public function onStart(){
 
 
@@ -29,6 +33,21 @@ public function onStart(){
     }
     
     $slug=$this->controller->vars['this']['param']['slug'];
+
+    $idshop=Product::query()->where('slug',$slug)->first()->seller_shop_id;
+    $id=Product::query()->where('slug',$slug)->first()->id;
+    $this['shop']=Shop::query()->where('id',$idshop)->firstOrFail();
+
+    $des=DB::table('pm_product_option')->where('product_name_id',$id)->get();
+
+
+    if(json_encode($des)!="[]"){
+        $this['description']=$des[0]->description;
+    }else{
+        $this['description']="chưa có mô tả";
+    }
+    
+
 
     $rate=DB::table('vojtasvoboda_reviews_reviews')
     ->join('vojtasvoboda_reviews_review_category','vojtasvoboda_reviews_reviews.id','=','vojtasvoboda_reviews_review_category.review_id')
@@ -222,8 +241,16 @@ public function onStart(){
     <div class="option-product d-flex flex-column">
         <div class="op-title">{{record.name}}</div>
         <div class="op-feedback d-flex flex-row w-100 position-relative">
-            <div>rate</div>
-            <div><span class="text-dark">6</span> đánh giá</div>
+            <div>
+                {% for i in 1..5 %}
+                    {% if i <= rateceil %}
+                        <i class="fa fa-star" aria-hidden="true"></i> 
+                    {% else %}
+                        <i class="fa fa-star-o" aria-hidden="true"></i> 
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div><span class="text-dark">{{rating}}</span> đánh giá</div>
             <div>đã bán</div>
             <div class="report">tố cáo</div>
         </div>
@@ -272,6 +299,61 @@ public function onStart(){
     <input type="hidden" name="size" >
 </form>
 
+<div class="shop-view view-home w-100 h-100 view-home-product">
+    <div class="d-flex flex-row flex-start align-items-center">
+        <div class="image-shop mr-5">
+            <img src="{{shop.image.path}}" width="80px" height="80px">
+        </div>
+        <div class="title-shop text-start">
+            <div>shop: {{shop.shopname}}</div>
+            <div class="text-muted">email: {{shop.email}}</div>
+            <div class="text-primary"><i>dtlh: {{shop.phone}}</i></div>
+            <div>
+                <a class="btn btn-outline-primary" href="../shop/{{shop.id}}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Xem Shop</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex flex-column al">
+            <div class="mb-4">
+                <span class="mr-5 text-muted">Đánh giá</span>
+                <span class="text-danger">15,2K</span>
+            </div>
+            <div>
+                <span class="mr-5 text-muted">Sản phẩm</span>
+                <span class="text-danger">325</span>
+            </div>
+        </div>
+        <div class="d-flex flex-column al">
+            <div class="mb-4">
+                <span class="mr-5 text-muted">Tỉ lệ phản hồi</span>
+                <span class="text-danger">88%</span>
+            </div>
+            <div>
+                <span class="mr-5 text-muted">Thời gian phản hồi</span>
+                <span class="text-danger">trong vài giờ</span>
+            </div>
+        </div>
+        <div class="d-flex flex-column al">
+            <div class="mb-4">
+                <span class="mr-5 text-muted">tham gia</span>
+                <span class="text-danger">3 năm trước</span>
+            </div>
+            <div>
+                <span class="mr-5 text-muted">Người theo dõi</span>
+                <span class="text-danger">25,5K</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="description-product w-100 h-100">
+    <h4>Mô tả sản phẩm</h4>
+    <div class="content-des">
+        {{description}}
+    </div>
+</div>
 
 <!-- Large modal -->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -400,7 +482,7 @@ public function onStart(){
     </div>
 
     <div class="product-like">
-        
+        {% partial 'components/ListProduct' id=record.id %}
     </div>
 </div>
 
@@ -452,6 +534,8 @@ public function onStart(){
     <script src="{{ 'assets/js/bootstrap-input-spinner.js'|theme }}"></script>
     <script>
         
+        
+
         function feedback(){
             $('.form-feedback').toggleClass('hidden');
         }
@@ -522,7 +606,12 @@ public function onStart(){
 
 
         $(document).ready(function() {
+            var nd=$('.content-des').text();
+            nd=nd.replace(/\n/g, '<br>\n');
+            $('.content-des').html(nd);
 
+            $('.rax-banned').remove();
+            
             console.log($('.color').text().trim())
             if($('.color').text().trim()==""){
                 $('.title-color').remove();
