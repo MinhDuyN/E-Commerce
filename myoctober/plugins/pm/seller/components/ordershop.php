@@ -27,7 +27,7 @@ class ordershop extends ComponentBase
 
     public function onRun()
     {
-        $this->orders = CheckoutDetails::where('id_seller', Session::get('shopid'))->join('pm_product_checkout', 'pm_product_checkout_details.id_checkout', '=', 'pm_product_checkout.id')->groupby('id_checkout')->orderBy('id_checkout','desc')->get();
+        $this->orders = CheckoutDetails::where('id_seller', Session::get('shopid'))->join('pm_product_checkout', 'pm_product_checkout_details.id_checkout', '=', 'pm_product_checkout.id')->groupby('id_checkout')->orderBy('id_checkout','desc')->paginate(5);
         // $this->order = Checkout::join('pm_product_checkout_details','pm_product_checkout.id', '=', 'pm_product_checkout_details.id_checkout')->distinct('id_checkout')->where('id_seller',Session::get('shopid'))->get();
         $this->order_details = CheckoutDetails::where('id_seller', Session::get('shopid'))->get();
         // $arr = array();
@@ -39,7 +39,7 @@ class ordershop extends ComponentBase
 
     public function onConfirm()
     {
-        $a = CheckoutDetails::where('id_seller', Session::get('shopid'))->where('id_checkout', Input::get('id_checkout'))->orderBy('id', 'desc')->get();
+        $a = CheckoutDetails::where('id_seller', Session::get('shopid'))->where('id_checkout', Input::get('id'))->orderBy('id', 'desc')->get();
         if (Input::get('stt') == 0) {
             
             for ($i = 0; $i < count($a); $i++) {

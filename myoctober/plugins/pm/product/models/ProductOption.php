@@ -75,4 +75,14 @@ class ProductOption extends Model
     public $rules = [
         'product_name_id'    => 'unique:pm_product_option',
     ];
+
+    public function scopeListFrontEnd($query, $options = []) 
+    {
+        extract(array_merge([
+            'page'    => 1,
+            'perPage' => 10,
+        ], $options));
+
+        return $query->paginate($perPage, $page);
+    }
 }

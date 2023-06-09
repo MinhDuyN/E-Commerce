@@ -17,7 +17,6 @@ categoryFilter = "{{ :slug }}"
 security = "all"
 ==
 <?php
-
 use Pm\Product\Models\Product;
 use Pm\Seller\Models\Shop;
 
@@ -39,7 +38,7 @@ public function onStart(){
     $this['shop']=Shop::query()->where('id',$idshop)->firstOrFail();
 
     $des=DB::table('pm_product_option')->where('product_name_id',$id)->get();
-
+   
 
     if(json_encode($des)!="[]"){
         $this['description']=$des[0]->description;
@@ -54,6 +53,9 @@ public function onStart(){
     ->join('vojtasvoboda_reviews_categories','vojtasvoboda_reviews_review_category.category_id','=','vojtasvoboda_reviews_categories.id')
     ->where('slug',$slug)
     ->sum('rating');
+
+    
+
 
     if($rate){
         $this['rating']=DB::table('vojtasvoboda_reviews_reviews')
@@ -111,7 +113,6 @@ public function onStart(){
         $this['rate']=0;
     }
 
-    
     }
 
     public function onSave(){
@@ -178,7 +179,9 @@ public function onStart(){
     use Vojtasvoboda\Reviews\Models\Review;
 
     public function onFeedback(){
+        
         $category=DB::table('vojtasvoboda_reviews_categories')->where('slug',Input::get('slug'))->first()->id;
+        
         
         if(Input::get('title')){
             $approved=true;
@@ -622,7 +625,7 @@ public function onStart(){
             }
         });
 
-
+       
         function checkout(){
             if($(".color").hasClass('op-active') && $(".size").hasClass('op-active') || $(".color").text()==""){
                     $.request(

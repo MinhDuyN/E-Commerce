@@ -48,6 +48,19 @@ security = "all"
 
         {% framework extras %}
         {% scripts %}
+        <script>
 
+            $(window).on('ajaxErrorMessage', function (event, message){
+
+                // This can be any custom JavaScript you want
+                $("#resultsSignin").html(message)
+                $("#resultsRegister").html(message)
+                console.log(message);
+
+                // This will stop the default alert() message
+                event.preventDefault();
+
+            })
+        </script>
     </body>
 </html>

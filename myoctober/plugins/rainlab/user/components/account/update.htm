@@ -1,7 +1,7 @@
 {{ form_ajax('onUpdate') }}
 
 <div class="wrapper fadeInUp">
-    <div id="formContent">
+    <div id="formContent" class="formUpdate">
         <h2 class="active">Update Account</h2>
         <div class="form-group">
             <label for="accountName">Full Name</label>
@@ -9,7 +9,7 @@
         </div>
 
         <div class="form-group">
-            <label for="accountEmail">Email</label>
+            <label for="accountEmail">Email</label><br>
             <input name="email" type="text" class="form-control" id="accountEmail" value="{{ user.email }}">
         </div>
 
@@ -31,7 +31,7 @@
         </div>
         {% endif %}
 
-        <button type="submit" class="btn btn-default">Save</button>
+        <button type="submit" class="btn btn-success">Save</button>
     </div>
 </div>
 

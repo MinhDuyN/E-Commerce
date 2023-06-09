@@ -256,8 +256,8 @@ class Account extends ComponentBase
                     'password' => 'required|min:8'
                 ],
                 [
-                    'required' => ':attribute required',
-                    'min' => ':attribute min is 8'
+                    'required' => ':attribute không bỏ trống',
+                    'min' => ':attribute ít nhất 8 kí tự'
                 ],
                 [
                     'login' => 'Username',
@@ -288,6 +288,8 @@ class Account extends ComponentBase
             Event::fire('rainlab.user.beforeAuthenticate', [$this, $credentials]);
 
             $user = Auth::authenticate($credentials, $this->useRememberLogin());
+            
+
             if ($user->isBanned()) {
                 Auth::logout();
                 throw new AuthException(Lang::get(/*Sorry, this user is currently not activated. Please contact us for further assistance.*/'rainlab.user::lang.account.banned'));
@@ -331,7 +333,7 @@ class Account extends ComponentBase
              * Validate input
              */
             $data = post();
-
+           
             if (!array_key_exists('password_confirmation', $data)) {
                 $data['password_confirmation'] = post('password');
             }
@@ -342,6 +344,8 @@ class Account extends ComponentBase
                 unset($rules['username']);
             }
 
+            // $data['type_user']='customer';
+         
             $validation = Validator::make(
                 [
                     'email' => Input::get('email'),
@@ -381,6 +385,7 @@ class Account extends ComponentBase
                 $data['created_ip_address'] = $data['last_ip_address'] = $ipAddress;
             }
 
+
             /*
              * Register user
              */
@@ -390,7 +395,7 @@ class Account extends ComponentBase
             $automaticActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_AUTO;
             $userActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_USER;
             $adminActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_ADMIN;
-            $user = Auth::register($data, $automaticActivation);
+            $user = Auth::register($data, $userActivation);
 
             Event::fire('rainlab.user.register', [$user, $data]);
 

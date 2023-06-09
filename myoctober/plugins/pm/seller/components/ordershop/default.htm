@@ -34,6 +34,9 @@
                     <p class="text-muted mb-0">ĐỊA CHỈ GIAO HÀNG:
                         {{ order.address }}
                     </p>
+                    <p class="text-muted mb-0">THANH TOÁN:
+                        {{ order.status_payment }}
+                    </p>
                     <p class="text-muted mb-0">NGÀY ĐẶT HÀNG:
                         {{ order.created_at }}
                     </p>
@@ -153,3 +156,5 @@
     {{ form_close() }}
     {% endfor %}
 </ul>
+
+{{ orders.render|raw }}

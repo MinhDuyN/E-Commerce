@@ -47,6 +47,9 @@ class ServiceProvider extends ModuleServiceProvider
         parent::boot('backend');
     }
 
+    
+
+
     /**
      * Register mail templates
      */

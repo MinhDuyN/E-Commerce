@@ -8,15 +8,26 @@ security = "all"
 <?php
 use Pm\Product\Models\Checkout;
 use Pm\Product\Models\CheckoutDetails;
+use Auth;
+use Pm\Product\Models\Productoption;
 public function onStart(){
+  
 
+ 
   $arr=Session::get('message');
   $this['arr']=json_encode($arr);
 
-
-  if($arr==null || Cookie::get($arr[0])==null){
-    return Redirect::back();
+  if(Cookie::get($arr[0])){
+      if($arr==null || Cookie::get($arr[0])==null){
+        return Redirect::back();
+      }
+  }else{
+    if($arr==null || Cookie::get($arr)==null){
+        return Redirect::back();
+      }
   }
+
+  
   
 
 
@@ -54,6 +65,16 @@ public function onStart(){
 
 
 public function onCreateCheckout(){
+
+  $user = Auth::getUser(); 
+  
+
+  $us="";
+  if($user){
+    $us=$user->id;
+  }
+
+
   $arr=Session::get('message');
 
   if(is_array($arr)){
@@ -84,7 +105,19 @@ public function onCreateCheckout(){
       $details->status='chờ xác nhận';
       $details->status_payment='chưa thanh toán';
       $details->product_name=$value->name.$value->size.$value->color;
+      $details->id_user=$us;
       $details->save();
+
+      $total=Productoption::query()->where('product_name_id',$value->id)->first()->quantity;
+
+      $updateQuantity=$total-$value->quantity;
+      if($updateQuantity<0){
+        $updateQuantity=0;
+      }
+      
+      Productoption::query()->where('product_name_id',$value->id)->update([
+        'quantity' => $updateQuantity
+      ]);
     }
   }else{
     $arrcart=[];
@@ -93,7 +126,7 @@ public function onCreateCheckout(){
 
     Cookie::queue($arr,null, -1);
 
-     $ob=new Checkout();
+      $ob=new Checkout();
       $ob->name=Input::get('name');
       $ob->email=Input::get('email');
       $ob->address=Input::get('address');
@@ -111,8 +144,23 @@ public function onCreateCheckout(){
         $details->status='chờ xác nhận';
         $details->status_payment='chưa thanh toán';
         $details->product_name=$value->name.$value->size.$value->color;
+        $details->id_user=$us;
         $details->save();
+
+
+        $total=Productoption::query()->where('product_name_id',$value->id)->first()->quantity;
+
+        $updateQuantity=$total-$value->quantity;
+        if($updateQuantity<0){
+          $updateQuantity=0;
+        }
+
+        Productoption::query()->where('product_name_id',$value->id)->update([
+          'quantity' => $updateQuantity
+        ]);
       }
+
+
   }
   
 
@@ -167,6 +215,7 @@ public function onCreateCheckout(){
       <div class="form-row mb-4"> 
         <label for="name" class="form-label">Họ tên</label>
 		<input form="msform" type="text" id="name" value="{{user.name}}" name="name" class="form-control">
+   
 		<label for="email" class="form-label">Email</label>
 		<input form="msform" type="email" id="email" value="{{user.email}}" name="email" class="form-control">
 		<label for="address" class="form-label">Địa chỉ</label>
