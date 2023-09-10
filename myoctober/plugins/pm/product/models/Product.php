@@ -60,9 +60,15 @@ class Product extends Model
             'key'=>'seller_shop_id',
             'table' => 'pm_seller_shop',
             'order' => 'shopname'
-        ]
+        ],
     ];
 
+    public $hasOne = [
+        'option' => [
+            Productoption::class,
+            'key' => 'product_name_id'
+        ]
+    ];
     // validate
     // public function beforeValidate()
     // {   

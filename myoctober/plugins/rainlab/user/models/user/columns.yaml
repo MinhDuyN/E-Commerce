@@ -53,3 +53,4 @@ columns:
         label: Type_User
         searchable: true
         type: text
+   

@@ -2,6 +2,8 @@
 namespace Pm\Product\Components;
 
 use Pm\Product\Models\Product;
+use Pm\Product\Models\Productoption;
+
 use Cms\Classes\ComponentBase;
 use Input;
 class loadmore extends ComponentBase
@@ -33,22 +35,27 @@ class loadmore extends ComponentBase
     public function onRun()
     {
         $this->items = $this->loadItems();
-
-
         
+        // $a=Product::with('option')->get();
+        
+    
+        
+        //  dd($a);
         if ($pageNumberParam = $this->paramName('pageNumber')) {
             $currentPage = $this->property('pageNumber');
             if ($currentPage > ($lastPage = $this->items->lastPage()) && $currentPage > 1 && count($this->items->items())==$this->items->perPage()) {
                 return Redirect::to($this->currentPageUrl([$pageNumberParam => $lastPage]));
             }
         }
+
+       
     }
 
     public function loadItems()
     {
-        $items = Product::listFrontEnd([
+        $items = Product::with('option')->listFrontEnd([
             'page'    => $this->property('pageNumber'),
-            'perPage' => 10,
+            'perPage' => 5,
         ]);
 
         return $items;

@@ -5,6 +5,9 @@ use Pm\Product\Models\Category;
 use Pm\Product\Models\CategoryDetailRelation;
 class Plugin extends PluginBase
 {
+
+
+
     public function registerComponents()
     {
         return [

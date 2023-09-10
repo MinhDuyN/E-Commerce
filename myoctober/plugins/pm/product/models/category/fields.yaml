@@ -15,18 +15,6 @@ fields:
             field: name
             type: slug
         type: text
-        
-    image:
-        label: 'Product image'
-        mode: image
-        imageWidth: '100'
-        imageHeight: '100'
-        useCaption: true
-        thumbOptions:
-            mode: crop
-            extension: auto
-        span: auto
-        type: fileupload
     gallery:
         label: 'Gallery Image'
         mode: image

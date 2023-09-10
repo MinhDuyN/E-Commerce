@@ -224,3 +224,14 @@ public function onSend(){
     {% endif %}
 
 </div>
+
+{% put scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript">
+    setTimeout(()=>{
+        $('.food').remove();
+    },1000);
+    
+    
+</script>
+{% endput %}

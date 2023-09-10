@@ -3,8 +3,8 @@
 {% if ob %}
 
 {% for item in ob %}
-    
-    {% if item.active == 1 %}
+
+    {% if item.active == 1 and item.option.quantity > 0  %}
     <a href="/products/{{item.slug}}" class="card-item">
         <div class="card-image">
             <img src="{{item.image.path}}" width="215px" height="230px">
@@ -25,7 +25,8 @@
 
 {% for item in items %}
     
-    {% if item.active == 1 %}
+    {% if item.active == 1 and item.option.quantity > 0 %}
+    
     <a href="/products/{{item.slug}}" class="card-item">
         <div class="card-image">
             <img src="{{item.image.path}}" width="215px" height="230px">
@@ -36,6 +37,7 @@
         <div class="card-price">
             {{ item.make_price }}$ &nbsp;<span class="text-muted"> 210 đã mua!</span>
         </div>
+        
     </a>
     {% endif %}
    

@@ -5,8 +5,8 @@
         <div id="formContent">
             <h2 class="active"> Register </h2>
             <div id="resultsRegister"></div>
-            <input class="fadeIn second" name="name" type="text" id="registerName" placeholder="Enter your full name" />
-            <input class="fadeIn second" name="email" type="text" id="registerEmail" placeholder="Enter your email" />
+            <input class="fadeIn second" name="name" type="text" id="registerName" placeholder="Nhập tên đăng nhập" />
+            <input class="fadeIn second" name="email" type="text" id="registerEmail" placeholder="Nhập email của bạn" />
 
             {% if loginAttribute == "username" %}
             <div id="content" class="form-group">
@@ -15,14 +15,14 @@
                     placeholder="Enter your username" />
             </div>
             {% endif %}          
-            <input class="fadeIn second" name="password" type="text" id="registerPassword"
-                placeholder="Enter your password" />
+            <input class="fadeIn second" name="password" type="password" id="registerPassword"
+                placeholder="Nhập mật khẩu" />
             <select class="btn btn-default" name="type_user" id="type_user">
-                <option value="customer">Khach hang</option>
-                <option value="seller">Nguoi ban hang</option>
+                <option value="customer">Khách hàng</option>
+                <option value="seller">Người bán hàng</option>
             </select>
             
-            <input type="submit" class="fadeIn fourth" value="Register">
+            <button type="submit">Đăng ký</button>
         </div>
     </div>
 </form>

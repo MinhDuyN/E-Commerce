@@ -1,8 +1,11 @@
 <?php
+use Pm\Product\Models\Productoption;
+
+
 
 Route::post('/api/order', ['as' => 'createOrder', function () {
        
-    
+   
     $array = explode('&quot;', Input::get('arr'));
     $array=preg_grep('/cart/i', $array);
     
@@ -140,6 +143,7 @@ use Pm\Product\Models\Checkout;
 use Pm\Product\Models\CheckoutDetails;
 
 Route::post('api/order/{id}',function($id){
+   
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -238,9 +242,22 @@ Route::post('api/order/{id}',function($id){
                 $details->status='chờ xác nhận';
                 $details->status_payment='đã thanh toán';
                 $details->product_name=$value->name.$value->size.$value->color;
+      
                 $details->save();
+
+                $total=Productoption::query()->where('product_name_id',$value->id)->first()->quantity;
+
+                $updateQuantity=$total-$value->quantity;
+                if($updateQuantity<0){
+                  $updateQuantity=0;
+                }
+
+                Productoption::query()->where('product_name_id',$value->id)->update([
+                  'quantity' => $updateQuantity
+                ]);
               }
 
+                
 
         }else{
             $arrcart=[];
@@ -271,8 +288,22 @@ Route::post('api/order/{id}',function($id){
                 $details->status='chờ xác nhận';
                 $details->status_payment='đã thanh toán';
                 $details->product_name=$value->name.$value->size.$value->color;
+             
                 $details->save();
+
+                $total=Productoption::query()->where('product_name_id',$value->id)->first()->quantity;
+
+                $updateQuantity=$total-$value->quantity;
+                if($updateQuantity<0){
+                  $updateQuantity=0;
+                }
+
+                Productoption::query()->where('product_name_id',$value->id)->update([
+                  'quantity' => $updateQuantity
+                ]);
             }
+
+
         }
 
 

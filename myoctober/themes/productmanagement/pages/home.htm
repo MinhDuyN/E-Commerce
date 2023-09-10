@@ -20,18 +20,25 @@ pageNumber = "{{ :page }}"
 use Pm\Product\Models\Categorydetails;
 	use Pm\Product\Models\CategoryTag;
 	use Pm\Product\Models\Product;
+	use Pm\Product\Models\Productoption;
 
 	function onStart(){
 		$this['productNew']= Product::query()->where('active',1)->take(2)->orderBy('created_at', 'desc')->get();
 
-		$this['fashion']= Product::query()
+		$fs= Product::query()
 		->join('pm_product_category_details','pm_product_.product_category_details_id','=','pm_product_category_details.id')
 		->orWhere('pm_product_category_details.name','like','%'.'nữ'.'%')
 		->orWhere('pm_product_category_details.name','like','%'.'nam'.'%')
 		->where('active',1)
-		->orderBy('created_at', 'desc')->get();
+		->orderBy('created_at', 'desc')
+		->select('pm_product_.name','pm_product_.id')
+		->get();
+		$id1=$fs[0]->id;
+		
+		$id2=$fs[1]->id;
 
-
+		$this['fashion1']=Product::query()->where('active',1)->where('id',$id1)->first();
+		$this['fashion2']=Product::query()->where('active',1)->where('id',$id2)->first();
 		$this['pd']= Product::query()->where('active',1)->offset(2)->take(5)->orderBy('created_at', 'desc')->get();
 	}
 
@@ -65,7 +72,7 @@ use Pm\Product\Models\Categorydetails;
     }
 
     public function onSearch(){
-		$this['ob']= Product::query()->where('name','like','%'.Input::get('q').'%')->get();
+		$this['ob']= Product::with('option')->where('name','like','%'.Input::get('q').'%')->get();
 		
 	}
 ?>
@@ -144,10 +151,10 @@ use Pm\Product\Models\Categorydetails;
 					</div>
 					<div class="grid-content row h-100 p-1 px-3">
 						<div class="col grid-image p-0 m-0 mr-2">
-							<img src="{{fashion[0].image.path}}" alt="">
+							<img src="{{fashion1.image.path}}" alt="">
 						</div>
 						<div class="col grid-image p-0 m-0">
-							<img src="{{fashion[0].image.path}}" alt="">
+							<img src="{{fashion2.image.path}}" alt="">
 						</div>
 					</div>
 				</div>

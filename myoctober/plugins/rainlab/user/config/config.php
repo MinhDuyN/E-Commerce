@@ -29,7 +29,7 @@ return [
     */
 
     'allowRegistration' => true,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Prevent concurrent sessions
